@@ -1,0 +1,16 @@
+# Operating System Files
+
+*.DS_Store
+Thumbs.db
+*.sw?
+.#*
+*#
+*~
+*.sublime-*
+
+README.html 
+
+target/
+bin/
+build/
+.gradle/

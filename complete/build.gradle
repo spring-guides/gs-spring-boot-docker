@@ -1,0 +1,50 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath('org.springframework.boot:spring-boot-gradle-plugin:1.2.3.RELEASE')
+// tag::build[]
+        classpath('se.transmode.gradle:gradle-docker:1.2')
+// end::build[]
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+// tag::plugin[]
+apply plugin: 'docker'
+// end::plugin[]
+
+// This is used as the docker image prefix (org)
+group = 'springio'
+
+jar {
+    baseName = 'gs-spring-boot-docker'
+    version =  '0.1.0'
+}
+
+// tag::task[]
+task buildDocker(type: Docker) {
+  push = true // default is false
+  applicationName = jar.baseName
+  dockerfile = new File('src/main/docker/Dockerfile')
+  // Copy the jar file over next to the Dockerfile
+  new File(stageDir, jar.archiveName).bytes = jar.archivePath.bytes
+}
+// end::task[]
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web") 
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
