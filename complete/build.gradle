@@ -28,10 +28,9 @@ jar {
 
 // tag::task[]
 task buildDocker(type: Docker) {
-  push = true // default is false
+  push = true
   applicationName = jar.baseName
   dockerfile = new File('src/main/docker/Dockerfile')
-  // Copy the jar file over next to the Dockerfile
   new File(stageDir, jar.archiveName).bytes = jar.archivePath.bytes
 }
 // end::task[]

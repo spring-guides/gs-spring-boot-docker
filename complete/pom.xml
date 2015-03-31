@@ -17,7 +17,6 @@
         <relativePath/>
     </parent>
 
-    <!-- tag::plugin[] -->
     <properties>
     	<docker.image.prefix>springio</docker.image.prefix>
     </properties>
@@ -28,7 +27,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-			<!-- https://github.com/spotify/docker-maven-plugin#use-a-dockerfile -->
+    <!-- tag::plugin[] -->
 			<plugin>
 				<groupId>com.spotify</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
@@ -45,9 +44,9 @@
 					</resources>
 				</configuration>
 			</plugin>
+    <!-- end::plugin[] -->
         </plugins>
     </build>
-    <!-- end::plugin[] -->
 
     <dependencies>
         <dependency>

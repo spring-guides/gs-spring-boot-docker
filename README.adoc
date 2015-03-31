@@ -4,7 +4,7 @@ projects: [spring-boot]
 ---
 :spring_version: current
 :toc:
-:project_id: gs-spring-boot-docker
+:project_id: gs-spring-boot
 :icons: font
 :source-highlighter: prettify
 
@@ -18,15 +18,13 @@ https://docker.com[Docker] is a Linux container management toolkit with a "socia
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
 
+You will also need https://docker.com[Docker], which only runs on 64-bit so if you don't have that you are out of luck, but if you do you can use Linux with a modern kernel (e.g. Ubuntu 14.04), or a virtual machine (e.g. Virtualbox or VMware). MacOS users can use a tool called boot2docker to manage the virtual machine.
+
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-gradle.adoc[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-maven.adoc[]
-
-You will also need https://docker.com[Docker], which only runs on 64-bit so if you don't have that you are out of luck, but if you do you can use Linux with a modern kernel (e.g. Ubuntu 14.04), or a virtual machine (e.g. Virtualbox or VMware). MacOS users can use a tool called boot2docker to manage the virtual machine for you.
-
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
 
 [[initial]]
 == Set up a Spring Boot app
@@ -41,13 +39,17 @@ include::complete/src/main/java/hello/Application.java[]
     
 The class is flagged as a `@SpringBootApplication` and as a `@RestController`, meaning it's ready for use by Spring MVC to handle web requests. `@RequestMapping` maps `/` to the `home()` method which just sends a 'Hello World' response.  The `main()` method uses Spring Boot's `SpringApplication.run()` method to launch an application.
 
-To run the application without the Docker container (in the host), execute:
+Now we can run the application without the Docker container (i.e. in the host OS).
+
+[.use-gradle]
+If you are using Gradle, execute:
 
 [subs="attributes"]
 ----
 ./gradlew build && java -jar build/libs/{project_id}-0.1.0.jar
 ----
 
+[.use-maven]
 If you are using Maven, execute:
 
 [subs="attributes"]
@@ -57,9 +59,9 @@ mvn package && java -jar target/{project_id}-0.1.0.jar
 
 and go to http://localhost:8080[localhost:8080] to see your "Hello Docker World" message.
 
-== Containerize
+== Containerize It
 
-Docker has a simple "Dockerfile" file format that it uses to specify the "layers" of an image. Create a Dockerfile:
+Docker has a simple https://docs.docker.com/reference/builder/["Dockerfile"] file format that it uses to specify the "layers" of an image. So let's go ahead and create a Dockerfile in our Spring Boot project:
 
 `src/main/docker/Dockerfile`
 [source,java]
@@ -67,19 +69,48 @@ Docker has a simple "Dockerfile" file format that it uses to specify the "layers
 include::complete/src/main/docker/Dockerfile[]
 ----
 
-This Dockerfile is very simple, but that's all you need to run a Spring Boot app with no frills, just java and a jar file. The project jar file is `ADDed` to the container as "app.jar" and then executed in the `ENTRYPOINT`.
+This Dockerfile is very simple, but that's all you need to run a Spring Boot app with no frills: just java and a jar file. The project jar file is `ADDed` to the container as "app.jar" and then executed in the `ENTRYPOINT`.
 
-To build the image we can use some tooling for Maven or Gradle from the community (big thanks to https://github.com/Transmode/gradle-docker[Transmode] and https://github.com/spotify/docker-maven-plugin[Spotify] for making those tools available).
+To build the image you can use some tooling for Maven or Gradle from the community (big thanks to https://github.com/Transmode/gradle-docker[Transmode] and https://github.com/spotify/docker-maven-plugin[Spotify] for making those tools available).
 
-In the Maven `pom.xml` we add a new plugin like so:
+[.reveal-maven]
+=== Build a Docker Image with Maven
+[.use-maven]
+=== Build a Docker Image with Maven
+In the Maven `pom.xml` you should add a new plugin like this (see https://github.com/spotify/docker-maven-plugin#use-a-dockerfile[the plugin documentation] for more options):
+:
 
 `pom.xml`
-[source,java]
+[source,xml,indent=0]
 ----
+    <properties>
+  	    <docker.image.prefix>springio</docker.image.prefix>
+    </properties>
+    <build>
+        <plugins>
 include::complete/pom.xml[tag=plugin]
+        </plugins>
+    </build>
 ----
 
-If you are using Gradle we need to add a new plugin:
+The configuration specifies 3 things:
+
+* the image name (or tag), which will end up here as `springio/gs-spring-boot-docker`
+* the directory in which to find the Dockerfile
+* the resources (files) to copy from the target directory to the docker build (alongside the Dockerfile) - we only need the jar file in this example
+
+You can build a tagged docker image and then push it to a remote repository using the "docker" command line like this:
+
+----
+$ mvn package docker:build
+$ docker push springio/gs-spring-boot-docker
+----
+
+[.reveal-gradle]
+=== Build a Docker Image with Gradle
+[.use-gradle]
+=== Build a Docker Image with Gradle
+If you are using Gradle you need to add a new plugin like this:
 
 `build.gradle`
 [source,groovy]
@@ -102,20 +133,17 @@ include::complete/build.gradle[tag=task]
 
 The configuration specifies 3 things:
 
-* the final image name (or tag), which will end up here as `springio/gs-spring-boot-docker`
-* the directory to find the Dockerfile
-* the resources (files) to copy from the target directory to the docker build (alongside the Dockerfile) - we only need the jar file in this example
+* the image name (or tag) is set up from the jar file properties, which will end up here as `springio/gs-spring-boot-docker`
+* the directory in which to find the Dockerfile
+* the jar file is copied from the build directory to the docker build (alongside the Dockerfile) - we only need the jar file in this example
 
-We can build a tagged docker image and then push it to a remote repository using the "docker" command line like this
-
-----
-$ mvn package docker:build
-$ docker push springio/gs-spring-boot-docker
-----
+You can build a tagged docker image and then push it to a remote repository with Gradle in one command:
 
 ----
 $ ./gradlew build buildDocker
 ----
+
+=== After the Push
 
 The "docker push" will fail for you (unless you are part of the "springio" organization at Dockerhub), but if you change the configuration to match your own docker ID then it should succeed, and you will have a new tagged, deployed image.
 
