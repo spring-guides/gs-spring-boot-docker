@@ -4,7 +4,7 @@ projects: [spring-boot]
 ---
 :spring_version: current
 :toc:
-:project_id: gs-spring-boot
+:project_id: gs-spring-boot-docker
 :icons: font
 :source-highlighter: prettify
 
