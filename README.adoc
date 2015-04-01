@@ -17,6 +17,8 @@ https://docker.com[Docker] is a Linux container management toolkit with a "socia
 == What you'll need
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
+
+If you are NOT using a Linux machine, you will need a virtualized server. By installing VirtualBox, other tools like the Mac's boot2docker, can seamlessly manage it for you. Visit https://www.virtualbox.org/wiki/Downloads[VirtualBox's download site] and pick the version for your machine. Download and install. Don't worry about actually running it.
  
 You will also need https://docker.com[Docker], which only runs on 64-bit machines. If you don't have that you are out of luck. Otherwise, see https://docs.docker.com/installation/#installation for details on setting Docker up for your machine. Before proceeding further, verify you can run `docker` commands from the shell.
 
