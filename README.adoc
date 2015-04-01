@@ -21,6 +21,7 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 You will also need https://docker.com[Docker], which only runs on 64-bit so if you don't have that you are out of luck, but if you do you can use Linux with a modern kernel (e.g. Ubuntu 14.04), or a virtual machine (e.g. Virtualbox or VMware). MacOS users can use a tool called boot2docker to manage the virtual machine.
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
++ An installation of Docker. See https://docs.docker.com/installation/#installation for details about your platform
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-gradle.adoc[]
 
