@@ -18,9 +18,6 @@ https://docker.com[Docker] is a Linux container management toolkit with a "socia
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
 
-
-+ An installation of Docker. See https://docs.docker.com/installation/#installation for details about your platform
-
 You will also need https://docker.com[Docker], which only runs on 64-bit machines. If you don't have that you are out of luck. Otherwise, see https://docs.docker.com/installation/#installation for details on setting Docker up for your machine.
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
