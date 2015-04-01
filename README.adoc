@@ -162,6 +162,7 @@ It is then available on http://localhost:8080 (visit that and it says "Hello Doc
 ====
 When using a Mac with boot2docker, you typically see things like this at startup:
 
+[source]
 ----
 Docker client to the Docker daemon, please set:
     export DOCKER_CERT_PATH=/Users/gturnquist/.boot2docker/certs/boot2docker-vm
