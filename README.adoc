@@ -162,10 +162,12 @@ It is then available on http://localhost:8080 (visit that and it says "Hello Doc
 ====
 When using a Mac with boot2docker, you typically see things like this at startup:
 
+----
 Docker client to the Docker daemon, please set:
     export DOCKER_CERT_PATH=/Users/gturnquist/.boot2docker/certs/boot2docker-vm
     export DOCKER_TLS_VERIFY=1
     export DOCKER_HOST=tcp://192.168.59.103:2376
+----
 
 To see the app, you must visit the IP address in DOCKER_HOST instead of localhost. In this case,
 http://192.168.59.103:8080, the public facing IP of the VM. 
