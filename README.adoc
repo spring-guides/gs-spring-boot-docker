@@ -26,6 +26,8 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-maven.adoc[]
 
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-sts.adoc[]
+
 [[initial]]
 == Set up a Spring Boot app
 
@@ -139,7 +141,7 @@ $ ./gradlew build buildDocker
 
 The "docker push" will fail for you (unless you are part of the "springio" organization at Dockerhub), but if you change the configuration to match your own docker ID then it should succeed, and you will have a new tagged, deployed image.
 
-Even without the "push" you now have a local tagged image and you can run it like this:
+NOTE: You do NOT have to register with docker or publish anything to run a docker image. You still have a locally tagged image, and you can run it like this:
 
 ----
 $ docker run -p 8080:8080 -t springio/gs-spring-boot-docker
@@ -148,7 +150,7 @@ $ docker run -p 8080:8080 -t springio/gs-spring-boot-docker
 2015-03-31 13:25:48.037  INFO 1 --- [           main] hello.Application                        : Started Application in 5.613 seconds (JVM running for 7.293)
 ----
 
-It is then available on http://localhost:8080[localhost:8080] (visit that and it says "Hello Docker World"). To make sure it is really working, change the prefix from "springio" to something else (e.g. `${env.USER}`) and go through the process again from the build through to the docker run.
+It is then available on http://localhost:8080 (visit that and it says "Hello Docker World"). To make sure it is really working, change the prefix from "springio" to something else (e.g. `${env.USER}`) and go through the process again from the build through to the docker run.
 
 == Summary
 
