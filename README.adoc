@@ -103,6 +103,8 @@ $ mvn package docker:build
 $ docker push springio/gs-spring-boot-docker
 ----
 
+NOTE: `package` MUST be run before `docker:build`. Otherwise, it will fail.
+
 === Build a Docker Image with Gradle
 If you are using Gradle you need to add a new plugin like this:
 

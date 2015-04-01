@@ -33,6 +33,7 @@ task buildDocker(type: Docker) {
   dockerfile = new File('src/main/docker/Dockerfile')
   new File(stageDir, jar.archiveName).bytes = jar.archivePath.bytes
 }
+buildDocker.dependsOn jar
 // end::task[]
 
 repositories {
