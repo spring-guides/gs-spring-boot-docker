@@ -19,7 +19,7 @@ apply plugin: 'docker'
 // end::plugin[]
 
 // This is used as the docker image prefix (org)
-group = 'springio'
+group = 'gregturn'
 
 jar {
     baseName = 'gs-spring-boot-docker'
@@ -43,6 +43,9 @@ task buildDocker(type: Docker, dependsOn: build) {
 repositories {
     mavenCentral()
 }
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web") 
