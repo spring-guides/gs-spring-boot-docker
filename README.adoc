@@ -151,7 +151,9 @@ $ ./gradlew build buildDocker
 
 The "docker push" will fail for you (unless you are part of the "springio" organization at Dockerhub), but if you change the configuration to match your own docker ID then it should succeed, and you will have a new tagged, deployed image.
 
-NOTE: You do NOT have to register with docker or publish anything to run a docker image. You still have a locally tagged image, and you can run it like this:
+[NOTE]
+====
+You do NOT have to register with docker or publish anything to run a docker image. You still have a locally tagged image, and you can run it like this:
 
 ----
 $ docker run -p 8080:8080 -t springio/gs-spring-boot-docker
@@ -159,6 +161,7 @@ $ docker run -p 8080:8080 -t springio/gs-spring-boot-docker
 2015-03-31 13:25:48.035  INFO 1 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
 2015-03-31 13:25:48.037  INFO 1 --- [           main] hello.Application                        : Started Application in 5.613 seconds (JVM running for 7.293)
 ----
+====
 
 The application is then available on http://localhost:8080 (visit that and it says "Hello Docker World"). To make sure the whole process is really working, change the prefix from "springio" to something else (e.g. `${env.USER}`) and go through it again from the build through to the docker run. 
 
