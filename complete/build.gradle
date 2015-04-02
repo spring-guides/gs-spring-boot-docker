@@ -27,11 +27,16 @@ jar {
 }
 
 // tag::task[]
-task buildDocker(type: Docker, dependsOn: jar) << {
+task buildDocker(type: Docker, dependsOn: build) {
   push = true
   applicationName = jar.baseName
-  dockerfile = new File('src/main/docker/Dockerfile')
-  new File(stageDir, jar.archiveName).bytes = jar.archivePath.bytes
+  dockerfile = file('src/main/docker/Dockerfile')
+  doFirst {
+    copy {
+      from jar
+      into stageDir
+    }
+  }
 }
 // end::task[]
 
