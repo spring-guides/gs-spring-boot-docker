@@ -71,13 +71,13 @@ Docker has a simple https://docs.docker.com/reference/builder/["Dockerfile"] fil
 include::complete/src/main/docker/Dockerfile[]
 ----
 
-This Dockerfile is very simple, but that's all you need to run a Spring Boot app with no frills: just java and a jar file. The project jar file is `ADDed` to the container as "app.jar" and then executed in the `ENTRYPOINT`.
+This Dockerfile is very simple, but that's all you need to run a Spring Boot app with no frills: just Java and a JAR file. The project JAR file is `ADDed` to the container as "app.jar" and then executed in the `ENTRYPOINT`.
 
-NOTE: we added a `VOLUME` pointing to "/tmp" because that is where a Spring Boot application creates working directories for Tomcat by default. The effect is to create a temporary file on your host under "/var/lib/docker" and link it to the container under "/tmp". This step is optional for the simple app that we wrote here, but can be necessary for other Spring Boot applications if they need to actually write in the filesystem.
+NOTE: We added a `VOLUME` pointing to "/tmp" because that is where a Spring Boot application creates working directories for Tomcat by default. The effect is to create a temporary file on your host under "/var/lib/docker" and link it to the container under "/tmp". This step is optional for the simple app that we wrote here, but can be necessary for other Spring Boot applications if they need to actually write in the filesystem.
 
-NOTE: you can use a `RUN` command to "touch" the jar file so that it has a file modification time (Docker creates all container files in an "unmodified" state by default). This actually isn't important for the simple app that we wrote, but any static content (e.g. "index.html") would require the file to have a modification time.
+NOTE: You can use a `RUN` command to "touch" the jar file so that it has a file modification time (Docker creates all container files in an "unmodified" state by default). This actually isn't important for the simple app that we wrote, but any static content (e.g. "index.html") would require the file to have a modification time.
 
-To build the image you can use some tooling for Maven or Gradle from the community (big thanks to https://github.com/Transmode/gradle-docker[Transmode] and https://github.com/spotify/docker-maven-plugin[Spotify] for making those tools available).
+To build the image, you can use some tooling for Maven or Gradle from the community (big thanks to https://github.com/Transmode/gradle-docker[Transmode] and https://github.com/spotify/docker-maven-plugin[Spotify] for making those tools available).
 
 === Build a Docker Image with Maven
 In the Maven `pom.xml` you should add a new plugin like this (see https://github.com/spotify/docker-maven-plugin#use-a-dockerfile[the plugin documentation] for more options):
@@ -98,9 +98,11 @@ include::complete/pom.xml[tag=plugin]
 
 The configuration specifies 3 things:
 
-* the image name (or tag), which will end up here as `springio/gs-spring-boot-docker`
-* the directory in which to find the Dockerfile
-* the resources (files) to copy from the target directory to the docker build (alongside the Dockerfile) - we only need the jar file in this example
+* The image name (or tag), which will end up here as `springio/gs-spring-boot-docker`
+* The directory in which to find the Dockerfile
+* The resources (files) to copy from the target directory to the docker build (alongside the Dockerfile) - we only need the jar file in this example
+
+IMPORTANT: Before proceeding with the following steps (which use Docker's CLI tools), make sure Docker is properly running by typing `docker ps`. If you get an error message, something may not be set up correctly. Using a Mac? Add `$(boot2docker shellinit 2> /dev/null)` to the bottom of your `.bash_profile` (or similar env-setting configuration file) and refresh your shell to ensure proper environment variables are configured.
 
 You can build a tagged docker image and then push it to a remote repository using the "docker" command line like this:
 
