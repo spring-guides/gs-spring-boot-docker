@@ -77,6 +77,8 @@ NOTE: We added a `VOLUME` pointing to "/tmp" because that is where a Spring Boot
 
 NOTE: You can use a `RUN` command to "touch" the jar file so that it has a file modification time (Docker creates all container files in an "unmodified" state by default). This actually isn't important for the simple app that we wrote, but any static content (e.g. "index.html") would require the file to have a modification time.
 
+NOTE: To reduce http://wiki.apache.org/tomcat/HowTo/FasterStartUp#Entropy_Source[Tomcat startup time] we added a system propery pointing to "/dev/urandom" as a source of entropy.
+
 To build the image, you can use some tooling for Maven or Gradle from the community (big thanks to https://github.com/Transmode/gradle-docker[Transmode] and https://github.com/spotify/docker-maven-plugin[Spotify] for making those tools available).
 
 === Build a Docker Image with Maven
