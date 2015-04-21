@@ -6,9 +6,6 @@ import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * @author Dave Syer
- */
 @SpringBootApplication
 @RestController
 public class Application {
