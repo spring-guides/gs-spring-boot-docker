@@ -15,7 +15,7 @@ This guide walks you through the process of building a https://docker.com[Docker
 https://docker.com[Docker] is a Linux container management toolkit with a "social" aspect, allowing users to publish container images and consume those published by others. A Docker image is a recipe for running a containerized process, and in this guide we will build one for a simple Spring boot application.
 
 == What you'll need
-:java_version: 1.7
+:java_version: 1.8
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
 
 If you are NOT using a Linux machine, you will need a virtualized server. By installing VirtualBox, other tools like the Mac's boot2docker, can seamlessly manage it for you. Visit https://www.virtualbox.org/wiki/Downloads[VirtualBox's download site] and pick the version for your machine. Download and install. Don't worry about actually running it.
