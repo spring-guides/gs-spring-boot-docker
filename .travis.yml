@@ -5,4 +5,4 @@ script:
 - test/run.sh
 notifications:
   slack:
-    secure: I64/3SPZwp02C3GuZ768nvFSRtaf0ErT9zyPeNHXvtcqytrAdtWARiI3ogn/87wQfFbF1lbr5zM1qa6ji1t3QLkkqJCFEd/eAA3rJIOfFGsxDhXA2QE2lzR1CeNbtQY1bF6I8DeEnXZlbV9SjPe9nUn87+98zuSPTiTgn/sSZ+k=
+    secure: rVmHqHTIeMQeGEYAXA6spwM4Vo9whKOhG5FNaw1nYRfsDeSzgO1YYwjAsAXfqQIArAcIvJhjALv2iNrWz+dBNCyNXEhd0XhWlpkDy9kYJR7c79SvtotNEmG3qbarrScOfBKKlMmJYPtPa7JGdUdIVhVFOQg2CK7JBzlOTx12/M8=
