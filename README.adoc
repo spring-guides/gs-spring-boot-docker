@@ -79,7 +79,7 @@ NOTE: You can use a `RUN` command to "touch" the jar file so that it has a file 
 
 NOTE: To reduce http://wiki.apache.org/tomcat/HowTo/FasterStartUp#Entropy_Source[Tomcat startup time] we added a system property pointing to "/dev/urandom" as a source of entropy.
 
-NOTE: if you are using boot2docker on a Mac you need to run it *first* before you do anything with the Docker command line or with the build tools (it runs a daemon process that handles the work for you in a virtual machine).
+NOTE: if you are using boot2docker you need to run it *first* before you do anything with the Docker command line or with the build tools (it runs a daemon process that handles the work for you in a virtual machine).
 
 To build the image you can use some tooling for Maven or Gradle from the community (big thanks to https://github.com/Transmode/gradle-docker[Transmode] and https://github.com/spotify/docker-maven-plugin[Spotify] for making those tools available).
 
