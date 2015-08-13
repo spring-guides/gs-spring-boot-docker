@@ -208,6 +208,19 @@ If you like you can also delete the container (it is persisted in your filesyste
 $ docker rm 81c723d22865
 ----
 
+=== Using Spring Profiles
+Running your freshly minted Docker image with Spring profiles is as easy as passing an environment variable to the Docker run command
+
+----
+$ docker run -e "SPRING_PROFILES_ACTIVE=prod" -p 8080:8080 -t springio/gs-spring-boot-docker
+----
+
+or
+
+----
+$ docker run -e "SPRING_PROFILES_ACTIVE=dev" -p 8080:8080 -t springio/gs-spring-boot-docker
+----
+
 == Summary
 
 Congratulations! You've just created a Docker container for a Spring Boot app! Spring Boot apps run on port 8080 inside the container by default and we mapped that to the same port on the host using "-p" on the command line.
