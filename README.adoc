@@ -228,3 +228,6 @@ Congratulations! You've just created a Docker container for a Spring Boot app! S
 
 
 
+
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
+
