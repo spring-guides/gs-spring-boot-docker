@@ -4,7 +4,7 @@
 *~
 .classpath
 .project
-.settings
+.settings/
 bin
 build
 target
