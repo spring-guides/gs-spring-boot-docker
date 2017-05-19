@@ -1,11 +1,14 @@
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
+
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath('org.springframework.boot:spring-boot-gradle-plugin:1.5.7.RELEASE')
 // tag::build[]
-        classpath('se.transmode.gradle:gradle-docker:1.2')
+        classpath('com.bmuschko:gradle-docker-plugin:3.0.11')
 // end::build[]
     }
 }
@@ -15,7 +18,7 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 // tag::plugin[]
-apply plugin: 'docker'
+apply plugin: 'com.bmuschko.docker-remote-api'
 // end::plugin[]
 
 // This is used as the docker image prefix (org)
@@ -27,27 +30,39 @@ jar {
 }
 
 // tag::task[]
-task buildDocker(type: Docker, dependsOn: build) {
-  applicationName = jar.baseName
-  dockerfile = file('Dockerfile')
-  doFirst {
+final dockerBuildDir = "${project.buildDir.absolutePath}/docker"
+
+task copyDockerResources(dependsOn: bootRepackage) << {
+
     copy {
-      from jar
-      into "${stageDir}/target"
+        from './Dockerfile'
+        into dockerBuildDir
     }
-  }
+
+    copy {
+        from jar
+        into "$dockerBuildDir/target"
+    }
+}
+
+task buildImage(type: DockerBuildImage, dependsOn: copyDockerResources) {
+    inputDir = project.file(dockerBuildDir)
+    tag = "${project.group}/${jar.baseName}"
+}
+
+task pushImage(type: DockerPushImage, dependsOn: buildImage) {
+    conventionMapping.imageName = { buildImage.getTag() }
 }
 // end::task[]
 
 repositories {
-    mavenCentral()
+	mavenCentral()
 }
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web") 
+    compile("org.springframework.boot:spring-boot-starter-web")
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
-

@@ -160,10 +160,16 @@ The configuration specifies 3 things:
 * the location of the Dockerfile
 * the jar file is copied from the build directory to the same location that Maven leaves it - we only need to do this for the guide so that we can use the same `Dockerfile` for Maven and Gradle
 
-You can build a tagged docker image and then push it to a remote repository with Gradle in one command:
+For simply building the image locally, the following command will suffice:
 
 ----
-$ ./gradlew build buildDocker
+$ ./gradlew buildImage
+----
+
+If you want to push the image to a remote repository then the following command builds the image and pushes it:
+
+----
+$ ./gradlew pushImage
 ----
 
 === After the Push
