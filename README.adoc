@@ -108,15 +108,32 @@ The configuration specifies 3 things:
 
 IMPORTANT: Before proceeding with the following steps (which use Docker's CLI tools), make sure Docker is properly running by typing `docker ps`. If you get an error message, something may not be set up correctly. Using a Mac? Add `$(boot2docker shellinit 2> /dev/null)` to the bottom of your `.bash_profile` (or similar env-setting configuration file) and refresh your shell to ensure proper environment variables are configured.
 
-You can build a tagged docker image and then push it to a remote repository using the "docker" command line like this:
+You can build a tagged docker image using the "docker" command line like this:
 
 ----
-$ mvn install dockerfile:push
+$ mvn install dockerfile:build
 ----
+
+And you can push the image to dockerhub with `mvn dockerfile:push`.
 
 NOTE: You don't have to push your newly minted Docker image to actually run it. Moreover the "push" command will fail if you aren't a member of the "springio" organization on Dockerhub. Change the build configuration and the command line to your own username instead of "springio" to make it actually work.
 
 NOTE: you can make `dockerfile:push` automatically run in the install or deploy lifecycle phases by adding it to the plugin configuration.
+
+`pom.xml`
+[source,xml,indent=0]
+----
+				<executions>
+					<execution>
+						<id>default</id>
+						<phase>install</phase>
+						<goals>
+							<goal>build</goal>
+							<goal>push</goal>
+						</goals>
+					</execution>
+				</executions>
+----
 
 === Build a Docker Image with Gradle
 If you are using Gradle you need to add a new plugin like this:
