@@ -34,7 +34,7 @@ task buildDocker(type: Docker, dependsOn: build) {
   doFirst {
     copy {
       from jar
-      into "build/docker/target"
+      into "${stageDir}/target"
     }
   }
 }
