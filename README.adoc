@@ -81,10 +81,10 @@ NOTE: To reduce http://wiki.apache.org/tomcat/HowTo/FasterStartUp#Entropy_Source
 
 NOTE: if you are using boot2docker you need to run it *first* before you do anything with the Docker command line or with the build tools (it runs a daemon process that handles the work for you in a virtual machine).
 
-To build the image you can use some tooling for Maven or Gradle from the community (big thanks to https://github.com/Transmode/gradle-docker[Transmode] and https://github.com/spotify/docker-maven-plugin[Spotify] for making those tools available).
+To build the image you can use some tooling for Maven or Gradle from the community (big thanks to https://github.com/Transmode/gradle-docker[Transmode] and https://github.com/spotify/dockerfile-maven-plugin[Spotify] for making those tools available).
 
 === Build a Docker Image with Maven
-In the Maven `pom.xml` you should add a new plugin like this (see https://github.com/spotify/dockerfile-maven#example[the plugin documentation] for more options):
+In the Maven `pom.xml` you should add a new plugin like this (see https://github.com/spotify/dockerfile-maven-plugin[the plugin documentation] for more options):
 :
 
 `pom.xml`
@@ -108,18 +108,32 @@ The configuration specifies 2 things:
 
 IMPORTANT: Before proceeding with the following steps (which use Docker's CLI tools), make sure Docker is properly running by typing `docker ps`. If you get an error message, something may not be set up correctly. Using a Mac? Add `$(boot2docker shellinit 2> /dev/null)` to the bottom of your `.bash_profile` (or similar env-setting configuration file) and refresh your shell to ensure proper environment variables are configured.
 
-You can build a tagged docker image using:
+You can build a tagged docker image using the "docker" command line like this:
 
 ----
-$ ./mvnw package
+$ mvn install dockerfile:build
 ----
 
-It can be pushed to a remote repository using:
-----
-$ ./mvnw deploy
-----
+And you can push the image to dockerhub with `mvn dockerfile:push`.
 
-NOTE: You don't have to push your newly minted Docker image to actually run it. Moreover the "push" will fail if you aren't a member of the "springio" organization on Dockerhub. Change the build configuration and the command line to your own username instead of "springio" to make it actually work.
+NOTE: You don't have to push your newly minted Docker image to actually run it. Moreover the "push" command will fail if you aren't a member of the "springio" organization on Dockerhub. Change the build configuration and the command line to your own username instead of "springio" to make it actually work.
+
+NOTE: you can make `dockerfile:push` automatically run in the install or deploy lifecycle phases by adding it to the plugin configuration.
+
+`pom.xml`
+[source,xml,indent=0]
+----
+				<executions>
+					<execution>
+						<id>default</id>
+						<phase>install</phase>
+						<goals>
+							<goal>build</goal>
+							<goal>push</goal>
+						</goals>
+					</execution>
+				</executions>
+----
 
 === Build a Docker Image with Gradle
 If you are using Gradle you need to add a new plugin like this:
@@ -146,8 +160,8 @@ include::complete/build.gradle[tag=task]
 The configuration specifies 3 things:
 
 * the image name (or tag) is set up from the jar file properties, which will end up here as `springio/gs-spring-boot-docker`
-* the directory in which to find the Dockerfile
-* the jar file is copied from the build directory to the docker build (alongside the Dockerfile) - we only need the jar file in this example
+* the location of the Dockerfile
+* the jar file is copied from the build directory to the same location that Maben leaves it - we only need to do this for the guide so that we can use teh same `Dockerfile` for Maven and Gradle
 
 You can build a tagged docker image and then push it to a remote repository with Gradle in one command:
 
