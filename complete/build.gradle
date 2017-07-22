@@ -19,7 +19,7 @@ apply plugin: 'docker'
 // end::plugin[]
 
 // This is used as the docker image prefix (org)
-group = 'gregturn'
+group = 'springio'
 
 jar {
     baseName = 'gs-spring-boot-docker'
@@ -30,11 +30,11 @@ jar {
 task buildDocker(type: Docker, dependsOn: build) {
   push = true
   applicationName = jar.baseName
-  dockerfile = file('src/main/docker/Dockerfile')
+  dockerfile = file('Dockerfile')
   doFirst {
     copy {
       from jar
-      into stageDir
+      into "${stageDir}/target"
     }
   }
 }
