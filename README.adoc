@@ -111,10 +111,10 @@ IMPORTANT: Before proceeding with the following steps (which use Docker's CLI to
 You can build a tagged docker image using the "docker" command line like this:
 
 ----
-$ mvn install dockerfile:build
+$ ./mvnw install dockerfile:build
 ----
 
-And you can push the image to dockerhub with `mvn dockerfile:push`.
+And you can push the image to dockerhub with `./mvnw dockerfile:push`.
 
 NOTE: You don't have to push your newly minted Docker image to actually run it. Moreover the "push" command will fail if you aren't a member of the "springio" organization on Dockerhub. Change the build configuration and the command line to your own username instead of "springio" to make it actually work.
 
