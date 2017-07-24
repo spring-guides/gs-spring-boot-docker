@@ -65,8 +65,8 @@ and go to http://localhost:8080[localhost:8080] to see your "Hello Docker World"
 
 Docker has a simple https://docs.docker.com/reference/builder/["Dockerfile"] file format that it uses to specify the "layers" of an image. So let's go ahead and create a Dockerfile in our Spring Boot project:
 
-`src/main/docker/Dockerfile`
-[source,java]
+`Dockerfile`
+[source,text]
 ----
 include::complete/Dockerfile[]
 ----
