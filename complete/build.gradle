@@ -28,7 +28,6 @@ jar {
 
 // tag::task[]
 task buildDocker(type: Docker, dependsOn: build) {
-  push = true
   applicationName = jar.baseName
   dockerfile = file('Dockerfile')
   doFirst {
