@@ -98,15 +98,14 @@ include::complete/pom.xml[tag=plugin]
     </build>
 ----
 
-The configuration specifies 3 things:
+The configuration specifies 2 things:
 
-* The image name (or tag), which will end up here as `springio/gs-spring-boot-docker`
-* The directory in which to find the Dockerfile
-* The resources (files) to copy from the target directory to the docker build (alongside the Dockerfile) - we only need the jar file in this example
+* The repository with the image name, which will end up here as `springio/gs-spring-boot-docker`
+* Optionally, the image tag, which ends up as latest if not specified.  It can be set to the artifact id if desired.
 
 IMPORTANT: Before proceeding with the following steps (which use Docker's CLI tools), make sure Docker is properly running by typing `docker ps`. If you get an error message, something may not be set up correctly. Using a Mac? Add `$(boot2docker shellinit 2> /dev/null)` to the bottom of your `.bash_profile` (or similar env-setting configuration file) and refresh your shell to ensure proper environment variables are configured.
 
-You can build a tagged docker image using the "docker" command line like this:
+You can build a tagged docker image using the command line like this:
 
 ----
 $ ./mvnw install dockerfile:build
@@ -159,7 +158,7 @@ The configuration specifies 3 things:
 
 * the image name (or tag) is set up from the jar file properties, which will end up here as `springio/gs-spring-boot-docker`
 * the location of the Dockerfile
-* the jar file is copied from the build directory to the same location that Maben leaves it - we only need to do this for the guide so that we can use teh same `Dockerfile` for Maven and Gradle
+* the jar file is copied from the build directory to the same location that Maven leaves it - we only need to do this for the guide so that we can use the same `Dockerfile` for Maven and Gradle
 
 You can build a tagged docker image and then push it to a remote repository with Gradle in one command:
 
