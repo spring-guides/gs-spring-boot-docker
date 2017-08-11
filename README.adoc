@@ -19,7 +19,7 @@ https://docker.com[Docker] is a Linux container management toolkit with a "socia
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
 
 If you are NOT using a Linux machine, you will need a virtualized server. By installing VirtualBox, other tools like the Mac's boot2docker, can seamlessly manage it for you. Visit https://www.virtualbox.org/wiki/Downloads[VirtualBox's download site] and pick the version for your machine. Download and install. Don't worry about actually running it.
- 
+
 You will also need https://docker.com[Docker], which only runs on 64-bit machines. See https://docs.docker.com/installation/#installation for details on setting Docker up for your machine. Before proceeding further, verify you can run `docker` commands from the shell. If you are using boot2docker you need to run that *first*.
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
@@ -40,7 +40,7 @@ Now you can create a simple application.
 ----
 include::complete/src/main/java/hello/Application.java[]
 ----
-    
+
 The class is flagged as a `@SpringBootApplication` and as a `@RestController`, meaning it's ready for use by Spring MVC to handle web requests. `@RequestMapping` maps `/` to the `home()` method which just sends a 'Hello World' response.  The `main()` method uses Spring Boot's `SpringApplication.run()` method to launch an application.
 
 Now we can run the application without the Docker container (i.e. in the host OS).
@@ -182,7 +182,7 @@ $ docker run -p 8080:8080 -t springio/gs-spring-boot-docker
 ----
 ====
 
-The application is then available on http://localhost:8080 (visit that and it says "Hello Docker World"). To make sure the whole process is really working, change the prefix from "springio" to something else (e.g. `${env.USER}`) and go through it again from the build through to the docker run. 
+The application is then available on http://localhost:8080 (visit that and it says "Hello Docker World"). To make sure the whole process is really working, change the prefix from "springio" to something else (e.g. `${env.USER}`) and go through it again from the build through to the docker run.
 
 [NOTE]
 ====
@@ -197,7 +197,7 @@ Docker client to the Docker daemon, please set:
 ----
 
 To see the app, you must visit the IP address in DOCKER_HOST instead of localhost. In this case,
-http://192.168.59.103:8080, the public facing IP of the VM. 
+http://192.168.59.103:8080, the public facing IP of the VM.
 ====
 
 When it is running you can see in the list of containers, e.g:
@@ -205,7 +205,7 @@ When it is running you can see in the list of containers, e.g:
 ----
 $ docker ps
 CONTAINER ID        IMAGE                             COMMAND                CREATED             STATUS              PORTS                    NAMES
-81c723d22865        springio/gs-spring-boot-docker:latest   "java -jar /app.jar"   34 seconds ago      Up 33 seconds       0.0.0.0:8080->8080/tcp   goofy_brown         
+81c723d22865        springio/gs-spring-boot-docker:latest   "java -jar /app.jar"   34 seconds ago      Up 33 seconds       0.0.0.0:8080->8080/tcp   goofy_brown
 ----
 
 and to shut it down again you can `docker stop` with the container ID from the listing above (yours will be different):
@@ -248,9 +248,11 @@ $ docker run -e "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,address=5005,serve
 
 Congratulations! You've just created a Docker container for a Spring Boot app! Spring Boot apps run on port 8080 inside the container by default and we mapped that to the same port on the host using "-p" on the command line.
 
+== See Also
 
+The following guides may also be helpful:
 
-
+* https://spring.io/guides/gs/serving-web-content/[Serving Web Content with Spring MVC]
+* https://spring.io/guides/gs/spring-boot/[Building an Application with Spring Boot]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
-
