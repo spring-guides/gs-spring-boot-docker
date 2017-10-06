@@ -235,7 +235,7 @@ $ docker run -e "SPRING_PROFILES_ACTIVE=dev" -p 8080:8080 -t springio/gs-spring-
 ----
 
 === Debugging the application in a Docker container
-To debug the application  http://docs.oracle.com/javase/8/docs/technotes/guides/jpda/conninv.html#Invocation[JPDA Transport] can can be used. So we'll treat the container like a remote server.
+To debug the application  http://docs.oracle.com/javase/8/docs/technotes/guides/jpda/conninv.html#Invocation[JPDA Transport] can be used. So we'll treat the container like a remote server.
 To enable this feature pass a java agent settings in JAVA_OPTS variable and map agent's port
  to localhost during a container run. With the https://www.docker.com/products/docker#/mac[Docker for Mac] there is limitation due to that we can't
  access container by IP without https://github.com/docker/for-mac/issues/171[black magic usage].
