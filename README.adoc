@@ -82,7 +82,7 @@ NOTE: if you are using boot2docker you need to run it *first* before you do anyt
 To build the image you can use some tooling for Maven or Gradle from the community (big thanks to https://github.com/Transmode/gradle-docker[Transmode] and https://github.com/spotify/dockerfile-maven-plugin[Spotify] for making those tools available).
 
 === Build a Docker Image with Maven
-In the Maven `pom.xml` you should add a new plugin like this (see https://github.com/spotify/dockerfile-maven-plugin[the plugin documentation] for more options):
+In the Maven `pom.xml` you should add a new plugin like this (see https://github.com/spotify/dockerfile-maven[the plugin documentation] for more options):
 :
 
 `pom.xml`
