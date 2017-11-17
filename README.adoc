@@ -79,7 +79,7 @@ NOTE: To reduce http://wiki.apache.org/tomcat/HowTo/FasterStartUp#Entropy_Source
 
 NOTE: if you are using boot2docker you need to run it *first* before you do anything with the Docker command line or with the build tools (it runs a daemon process that handles the work for you in a virtual machine).
 
-To build the image you can use some tooling for Maven or Gradle from the community (big thanks to https://github.com/Transmode/gradle-docker[Transmode] and https://github.com/spotify/dockerfile-maven[Spotify] for making those tools available).
+To build the image you can use some tooling for Maven or Gradle from the community (big thanks to https://github.com/palantir/gradle-docker[Palantir] and https://github.com/spotify/dockerfile-maven[Spotify] for making those tools available).
 
 === Build a Docker Image with Maven
 In the Maven `pom.xml` you should add a new plugin like this (see https://github.com/spotify/dockerfile-maven[the plugin documentation] for more options):
@@ -98,9 +98,10 @@ include::complete/pom.xml[tag=plugin]
     </build>
 ----
 
-The configuration specifies 2 things:
+The configuration specifies 3 things:
 
 * The repository with the image name, which will end up here as `springio/gs-spring-boot-docker`
+* The name of the jar file, exposing the Maven configuration as a build argument for docker.
 * Optionally, the image tag, which ends up as latest if not specified.  It can be set to the artifact id if desired.
 
 IMPORTANT: Before proceeding with the following steps (which use Docker's CLI tools), make sure Docker is properly running by typing `docker ps`. If you get an error message, something may not be set up correctly. Using a Mac? Add `$(boot2docker shellinit 2> /dev/null)` to the bottom of your `.bash_profile` (or similar env-setting configuration file) and refresh your shell to ensure proper environment variables are configured.
@@ -157,13 +158,13 @@ include::complete/build.gradle[tag=task]
 The configuration specifies 3 things:
 
 * the image name (or tag) is set up from the jar file properties, which will end up here as `springio/gs-spring-boot-docker`
-* the location of the Dockerfile
-* the jar file is copied from the build directory to the same location that Maven leaves it - we only need to do this for the guide so that we can use the same `Dockerfile` for Maven and Gradle
+* the location of the jarfile
+* a build argument for docker pointing to the jar file
 
 You can build a tagged docker image and then push it to a remote repository with Gradle in one command:
 
 ----
-$ ./gradlew build buildDocker
+$ ./gradlew build docker
 ----
 
 === After the Push
@@ -204,8 +205,8 @@ When it is running you can see in the list of containers, e.g:
 
 ----
 $ docker ps
-CONTAINER ID        IMAGE                             COMMAND                CREATED             STATUS              PORTS                    NAMES
-81c723d22865        springio/gs-spring-boot-docker:latest   "java -jar /app.jar"   34 seconds ago      Up 33 seconds       0.0.0.0:8080->8080/tcp   goofy_brown
+CONTAINER ID        IMAGE                                   COMMAND                  CREATED             STATUS              PORTS                    NAMES
+81c723d22865        springio/gs-spring-boot-docker:latest   "java -Djava.secur..."   34 seconds ago      Up 33 seconds       0.0.0.0:8080->8080/tcp   goofy_brown
 ----
 
 and to shut it down again you can `docker stop` with the container ID from the listing above (yours will be different):
