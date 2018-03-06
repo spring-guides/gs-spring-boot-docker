@@ -25,7 +25,7 @@ apply plugin: 'com.palantir.docker'
 // This is used as the docker image prefix (org)
 group = 'springio'
 
-jar {
+bootJar {
     baseName = 'gs-spring-boot-docker'
     version =  '0.1.0'
 }
