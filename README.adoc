@@ -1,7 +1,3 @@
----
-tags: [docker,spring boot]
-projects: [spring-boot]
----
 :spring_version: current
 :toc:
 :project_id: gs-spring-boot-docker
