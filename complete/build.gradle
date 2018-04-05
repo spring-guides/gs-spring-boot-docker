@@ -6,7 +6,7 @@ buildscript {
       mavenCentral()
     }
     dependencies {
-        classpath('org.springframework.boot:spring-boot-gradle-plugin:2.0.0.RELEASE')
+        classpath('org.springframework.boot:spring-boot-gradle-plugin:2.0.1.RELEASE')
 // tag::build[]
         classpath('gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.13.0')
 // end::build[]
