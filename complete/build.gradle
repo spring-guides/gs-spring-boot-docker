@@ -32,9 +32,9 @@ bootJar {
 
 // tag::task[]
 docker {
-    name "${project.group}/${jar.baseName}"
-    files jar.archivePath
-    buildArgs(['JAR_FILE': "${jar.archiveName}"])
+    name "${project.group}/${bootJar.baseName}"
+    files bootJar.archivePath
+    buildArgs(['JAR_FILE': "${bootJar.archiveName}"])
 }
 // end::task[]
 
