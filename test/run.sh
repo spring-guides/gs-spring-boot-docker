@@ -3,7 +3,14 @@ cd $(dirname $0)
 
 cd ../complete
 
-mvn clean package
+./mvnw clean package
+ret=$?
+if [ $ret -ne 0 ]; then
+exit $ret
+fi
+rm -rf target
+
+./mvnw clean install dockerfile:build
 ret=$?
 if [ $ret -ne 0 ]; then
 exit $ret
@@ -26,7 +33,7 @@ rm -rf build
 
 cd ../initial
 
-mvn clean compile
+./mvnw clean compile
 ret=$?
 if [ $ret -ne 0 ]; then
 exit $ret
