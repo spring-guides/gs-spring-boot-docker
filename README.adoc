@@ -137,6 +137,11 @@ If you are using Gradle you need to add a new plugin like this:
 ----
 buildscript {
     ...
+    repositories {
+    	maven {
+	    url "https://plugins.gradle.org/m2/"
+	}
+    }
     dependencies {
         ...
 include::complete/build.gradle[tag=build]
