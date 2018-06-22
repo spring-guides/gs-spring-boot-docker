@@ -102,7 +102,13 @@ The configuration specifies 3 things:
 
 [NOTE]
 ====
-If the docker image contains the pre-shaded jar, you need to explicitly declare the  spring-boot-maven-plugin before the docker plugin declaration.
+The order of plugins matters. If you run deploy, but the container fails due to no manifest file found for your JAR, make sure that the docker plug in appears below the spring-boot-maven-plugin. If you don't explicitly declare the spring-boot-maven-plugin, add
+```
+<plugin>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-maven-plugin</artifactId>
+</plugin>
+```
 
 IMPORTANT: Before proceeding with the following steps (which use Docker's CLI tools), make sure Docker is properly running by typing `docker ps`. If you get an error message, something may not be set up correctly. Using a Mac? Add `$(boot2docker shellinit 2> /dev/null)` to the bottom of your `.bash_profile` (or similar env-setting configuration file) and refresh your shell to ensure proper environment variables are configured.
 
