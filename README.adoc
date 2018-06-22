@@ -100,6 +100,10 @@ The configuration specifies 3 things:
 * The name of the jar file, exposing the Maven configuration as a build argument for docker.
 * Optionally, the image tag, which ends up as latest if not specified.  It can be set to the artifact id if desired.
 
+[NOTE]
+====
+If the docker image contains the pre-shaded jar, you need to explicitly declare the  spring-boot-maven-plugin before the docker plugin declaration.
+
 IMPORTANT: Before proceeding with the following steps (which use Docker's CLI tools), make sure Docker is properly running by typing `docker ps`. If you get an error message, something may not be set up correctly. Using a Mac? Add `$(boot2docker shellinit 2> /dev/null)` to the bottom of your `.bash_profile` (or similar env-setting configuration file) and refresh your shell to ensure proper environment variables are configured.
 
 You can build a tagged docker image using the command line like this:
