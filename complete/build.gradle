@@ -33,7 +33,7 @@ bootJar {
 // tag::task[]
 task unpack(type: Copy) {
     dependsOn bootJar
-    from(zipTree("build/libs/${bootJar.archiveName}"))
+    from(zipTree(tasks.bootJar.outputs.files.singleFile))
     into("build/dependency")
 }
 docker {
