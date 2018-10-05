@@ -31,11 +31,14 @@ bootJar {
 }
 
 // tag::task[]
+task unpack(type: Copy) {
+   from(zipTree("build/libs/${bootJar.archiveName}"))
+   into("build/dependency")
+}
 docker {
-    dependsOn build
     name "${project.group}/${bootJar.baseName}"
-    files bootJar.archivePath
-    buildArgs(['JAR_FILE': "${bootJar.archiveName}"])
+    copySpec.from(tasks.unpack.outputs).into("dependency")
+    buildArgs(['DEPENDENCY': "dependency"])
 }
 // end::task[]
 

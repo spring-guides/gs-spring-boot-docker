@@ -62,16 +62,28 @@ and go to http://localhost:8080[localhost:8080] to see your "Hello Docker World"
 Docker has a simple https://docs.docker.com/reference/builder/["Dockerfile"] file format that it uses to specify the "layers" of an image. So let's go ahead and create a Dockerfile in our Spring Boot project:
 
 `Dockerfile`
-[source,java]
+[source]
 ----
-include::complete/Dockerfile[]
+FROM openjdk:8-jdk-alpine
+VOLUME /tmp
+ARG JAR_FILE
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
 ----
 
 This Dockerfile is very simple, but that's all you need to run a Spring Boot app with no frills: just Java and a JAR file. The project JAR file is `ADDed` to the container as "app.jar" and then executed in the `ENTRYPOINT`.
 
 NOTE: We added a `VOLUME` pointing to "/tmp" because that is where a Spring Boot application creates working directories for Tomcat by default. The effect is to create a temporary file on your host under "/var/lib/docker" and link it to the container under "/tmp". This step is optional for the simple app that we wrote here, but can be necessary for other Spring Boot applications if they need to actually write in the filesystem.
 
-NOTE: To reduce http://wiki.apache.org/tomcat/HowTo/FasterStartUp#Entropy_Source[Tomcat startup time] we added a system property pointing to "/dev/urandom" as a source of entropy.
+NOTE: To reduce http://wiki.apache.org/tomcat/HowTo/FasterStartUp#Entropy_Source[Tomcat startup time] we added a system property pointing to "/dev/urandom" as a source of entropy. This is not necessary with more recent versions of Spring Boot, if you use the "standard" version of Tomcat (or any other web server).
+
+To take advantage of the clean separation between dependencies and application resources in a Spring Boot fat jar file, we will use a slightly different implementation of the Dockerfile:
+
+`Dockerfile`
+[source]
+----
+include::complete/Dockerfile[]
+----
 
 NOTE: if you are using boot2docker you need to run it *first* before you do anything with the Docker command line or with the build tools (it runs a daemon process that handles the work for you in a virtual machine).
 
@@ -97,10 +109,18 @@ include::complete/pom.xml[tag=plugin]
 The configuration specifies 3 things:
 
 * The repository with the image name, which will end up here as `springio/gs-spring-boot-docker`
-* The name of the jar file, exposing the Maven configuration as a build argument for docker.
+* The name of the directory where the fat jar is going to be unpacked, exposing the Maven configuration as a build argument for docker.
 * Optionally, the image tag, which ends up as latest if not specified.  It can be set to the artifact id if desired.
 
 IMPORTANT: Before proceeding with the following steps (which use Docker's CLI tools), make sure Docker is properly running by typing `docker ps`. If you get an error message, something may not be set up correctly. Using a Mac? Add `$(boot2docker shellinit 2> /dev/null)` to the bottom of your `.bash_profile` (or similar env-setting configuration file) and refresh your shell to ensure proper environment variables are configured.
+
+To ensure the jar is unpacked before the docker image is created we add some configuration for the dependency plugin:
+
+`pom.xml`
+[source,xml,indent=0]
+----
+include::complete/pom.xml[tag=unpack]
+----
 
 You can build a tagged docker image using the command line like this:
 
@@ -151,10 +171,11 @@ include::complete/build.gradle[tag=plugin]
 include::complete/build.gradle[tag=task]
 ----
 
-The configuration specifies 3 things:
+The configuration specifies 4 things:
 
+* a task to unpack the fat jar file
 * the image name (or tag) is set up from the jar file properties, which will end up here as `springio/gs-spring-boot-docker`
-* the location of the jarfile
+* the location of the unpacked jarfile
 * a build argument for docker pointing to the jar file
 
 You can build a tagged docker image and then push it to a remote repository with Gradle in one command:

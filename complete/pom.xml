@@ -36,12 +36,13 @@
                 <configuration>
                     <repository>${docker.image.prefix}/${project.artifactId}</repository>
                     <buildArgs>
-                        <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+                        <DEPENDENCY>target/dependency</DEPENDENCY>
                     </buildArgs>
                 </configuration>
             </plugin>
             <!-- end::plugin[] -->
 
+            <!-- tag::unpack[] -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -64,6 +65,7 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- end::unpack[] -->
         </plugins>
     </build>
 
