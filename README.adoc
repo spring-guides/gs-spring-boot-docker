@@ -85,6 +85,8 @@ To take advantage of the clean separation between dependencies and application r
 include::complete/Dockerfile[]
 ----
 
+This Dockerfile has a `DEPENDENCY` parameter pointing to a directory where we have unpacked the fat jar. If we get that right, it already contains a `BOOT-INF/lib` directory with the dependency jars in it, and a `BOOT-INF/classes` directory with the application classes in it. Notice that we are using the application's own main class `hello.Application` (this is faster than using the indirection provided by the fat jar launcher).
+
 NOTE: if you are using boot2docker you need to run it *first* before you do anything with the Docker command line or with the build tools (it runs a daemon process that handles the work for you in a virtual machine).
 
 To build the image you can use some tooling for Maven or Gradle from the community (big thanks to https://github.com/palantir/gradle-docker[Palantir] and https://github.com/spotify/dockerfile-maven[Spotify] for making those tools available).
