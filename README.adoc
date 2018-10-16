@@ -108,11 +108,12 @@ include::complete/pom.xml[tag=plugin]
     </build>
 ----
 
-The configuration specifies 3 things:
+The configuration specifies 1 mandatory thing: the repository with the image name, which will end up here as `springio/gs-spring-boot-docker`.
 
-* The repository with the image name, which will end up here as `springio/gs-spring-boot-docker`
-* The name of the directory where the fat jar is going to be unpacked, exposing the Maven configuration as a build argument for docker.
-* Optionally, the image tag, which ends up as latest if not specified.  It can be set to the artifact id if desired.
+Some other properties are optional:
+
+* The name of the directory where the fat jar is going to be unpacked, exposing the Maven configuration as a build argument for docker. It can be specified using the `<buildArgs/>` of the plugin configuration.
+* The image tag, which ends up as "latest" if not specified.  It can be set with the `<tag/>` element,
 
 IMPORTANT: Before proceeding with the following steps (which use Docker's CLI tools), make sure Docker is properly running by typing `docker ps`. If you get an error message, something may not be set up correctly. Using a Mac? Add `$(boot2docker shellinit 2> /dev/null)` to the bottom of your `.bash_profile` (or similar env-setting configuration file) and refresh your shell to ensure proper environment variables are configured.
 
@@ -177,7 +178,7 @@ The configuration specifies 4 things:
 
 * a task to unpack the fat jar file
 * the image name (or tag) is set up from the jar file properties, which will end up here as `springio/gs-spring-boot-docker`
-* the location of the unpacked jarfile
+* the location of the unpacked jarfile, which we could have hard coded in the `Dockerfile`
 * a build argument for docker pointing to the jar file
 
 You can build a tagged docker image and then push it to a remote repository with Gradle in one command:

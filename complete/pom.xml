@@ -35,9 +35,6 @@
                 <version>1.3.6</version>
                 <configuration>
                     <repository>${docker.image.prefix}/${project.artifactId}</repository>
-                    <buildArgs>
-                        <DEPENDENCY>target/dependency</DEPENDENCY>
-                    </buildArgs>
                 </configuration>
             </plugin>
             <!-- end::plugin[] -->
