@@ -87,7 +87,7 @@ $ docker build --build-args JAR_FILE=build/libs/*.jar -t springio/gs-spring-boot
 
 This command builds an image and tags it as `springio/gs-spring-boot-docker`.
 
-This Dockerfile is very simple, but that's all you need to run a Spring Boot app with no frills: just Java and a JAR file. The project JAR file is `ADDed` to the container as "app.jar" and then executed in the `ENTRYPOINT`. The array form of the Dockerfile `ENTRYPOINT` is used so that there is no shell wrapping the java process. The https://spring.io/guides/topicals/spring-boot-docker[Topical Guide on Docker] goes into this topic in more detail.
+This Dockerfile is very simple, but that's all you need to run a Spring Boot app with no frills: just Java and a JAR file. The build will `COPY` the project JAR file into the container as "app.jar" and then is executed in the `ENTRYPOINT`. The array form of the Dockerfile `ENTRYPOINT` is used so that there is no shell wrapping the java process. The https://spring.io/guides/topicals/spring-boot-docker[Topical Guide on Docker] goes into this topic in more detail.
 
 NOTE: We added a `VOLUME` pointing to "/tmp" because that is where a Spring Boot application creates working directories for Tomcat by default. The effect is to create a temporary file on your host under "/var/lib/docker" and link it to the container under "/tmp". This step is optional for the simple app that we wrote here, but can be necessary for other Spring Boot applications if they need to actually write in the filesystem.
 
