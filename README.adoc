@@ -10,6 +10,8 @@ This guide walks you through the process of building a https://docker.com[Docker
 
 https://docker.com[Docker] is a Linux container management toolkit with a "social" aspect, allowing users to publish container images and consume those published by others. A Docker image is a recipe for running a containerized process, and in this guide we will build one for a simple Spring boot application.
 
+NOTE: There is also a https://spring.io/guides/topicals/spring-boot-docker[Topical Guide on Docker], which covers a wider range of choices that we have here, and in much more detail.
+
 == What you'll need
 :java_version: 1.8
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
@@ -275,5 +277,6 @@ The following guides may also be helpful:
 
 * https://spring.io/guides/gs/serving-web-content/[Serving Web Content with Spring MVC]
 * https://spring.io/guides/gs/spring-boot/[Building an Application with Spring Boot]
+* https://spring.io/guides/topicals/spring-boot-docker[Topical Guide on Spring Boot with Docker] (more depth than this guide)
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
