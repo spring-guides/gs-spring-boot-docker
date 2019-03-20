@@ -91,7 +91,7 @@ This Dockerfile is very simple, but that's all you need to run a Spring Boot app
 
 NOTE: We added a `VOLUME` pointing to "/tmp" because that is where a Spring Boot application creates working directories for Tomcat by default. The effect is to create a temporary file on your host under "/var/lib/docker" and link it to the container under "/tmp". This step is optional for the simple app that we wrote here, but can be necessary for other Spring Boot applications if they need to actually write in the filesystem.
 
-NOTE: To reduce http://wiki.apache.org/tomcat/HowTo/FasterStartUp#Entropy_Source[Tomcat startup time] we formerly added a system property pointing to "/dev/urandom" as a source of entropy. This is not necessary anymore with http://openjdk.java.net/jeps/123[JDK 8 or later].
+NOTE: To reduce https://wiki.apache.org/tomcat/HowTo/FasterStartUp#Entropy_Source[Tomcat startup time] we formerly added a system property pointing to "/dev/urandom" as a source of entropy. This is not necessary anymore with http://openjdk.java.net/jeps/123[JDK 8 or later].
 
 To take advantage of the clean separation between dependencies and application resources in a Spring Boot fat jar file, we will use a slightly different implementation of the Dockerfile:
 
@@ -223,7 +223,7 @@ Docker client to the Docker daemon, please set:
 ----
 
 To see the app, you must visit the IP address in DOCKER_HOST instead of localhost. In this case,
-http://192.168.59.103:8080, the public facing IP of the VM.
+https://192.168.59.103:8080, the public facing IP of the VM.
 ====
 
 When it is running you can see in the list of containers, e.g:
@@ -261,7 +261,7 @@ $ docker run -e "SPRING_PROFILES_ACTIVE=dev" -p 8080:8080 -t springio/gs-spring-
 ----
 
 === Debugging the application in a Docker container
-To debug the application  http://docs.oracle.com/javase/8/docs/technotes/guides/jpda/conninv.html#Invocation[JPDA Transport] can be used. So we'll treat the container like a remote server.
+To debug the application  https://docs.oracle.com/javase/8/docs/technotes/guides/jpda/conninv.html#Invocation[JPDA Transport] can be used. So we'll treat the container like a remote server.
 To enable this feature pass a java agent settings in JAVA_OPTS variable and map agent's port
  to localhost during a container run. With the https://www.docker.com/products/docker#/mac[Docker for Mac] there is limitation due to that we can't
  access container by IP without https://github.com/docker/for-mac/issues/171[black magic usage].
