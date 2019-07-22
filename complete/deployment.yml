@@ -1,0 +1,32 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # This name doesn't really need to MATCH anything
+  name: helloworld-steved-important
+  labels:
+    user: steved-label
+    # This doesn't need to match anything
+    # This just adds tags to the deployment which can be used
+    # to query it later.
+    app: helloworld-whatever
+# This is the pod spec for the deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      # This must match the below label.  If you created the replicaset
+      # in a different file, you must make sure that the RS can find
+      # it's deployments
+      app: helloworld-deploy1
+  template:
+    metadata:
+      labels:
+        app: helloworld-deploy1
+    # This is the pod spec
+    spec:
+      containers:
+        - name: helloworld-steved-container-name
+          image: springio/gs-spring-boot-docker:latest
+          ports:
+          - containerPort: 8080
