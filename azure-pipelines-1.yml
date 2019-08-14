@@ -33,5 +33,5 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-      docker tag springio/gs-spring-boot-docker stevedillon1/gs-spring-boot-docker:$(Build.BuildId)
-      docker push stevedillon1/gs-spring-boot-docker:$(build.BuildId)
+      docker tag springio/gs-spring-boot-docker:latest steve-dillon1/gs-spring-boot-docker:$(Build.BuildId)
+      docker push steve-dillon1/gs-spring-boot-docker:$(build.BuildId)
