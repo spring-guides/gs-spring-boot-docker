@@ -28,8 +28,9 @@ steps:
     script: |
       docker tag springio/gs-spring-boot-docker stevedillon1/gs-spring-boot-docker:$(Build.BuildId)
 
+
 - task: Docker@2
   inputs:
     containerRegistry: 'steve-dillon1'
+    repository: 'stevedillon1/gs-spring-boot-docker'
     command: 'push'
-
