@@ -30,7 +30,7 @@ steps:
     containerRegistry: 'steve-dillon1'
     command: 'login'
 
-    - task: CmdLine@2
+- task: CmdLine@2
   inputs:
     script: |
       docker tag springio/gs-spring-boot-docker stevedillon1/gs-spring-boot-docker:$(Build.BuildId)
