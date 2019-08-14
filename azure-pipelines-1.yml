@@ -21,6 +21,3 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'install dockerfile:build dockerfile:push'
-- task: Docker@2
-  inputs:
-    command: 'push'
