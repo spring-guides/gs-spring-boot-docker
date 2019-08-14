@@ -23,9 +23,12 @@ steps:
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'install dockerfile:build '
 
-- task: CmdLine@2
+- task: AzureCLI@1
   inputs:
-    script: |
+    azureSubscription: 'StevesWin8Account'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az login
       az acr login --name stevedillon1
       docker tag springio/gs-spring-boot-docker stevedillon1/gs-spring-boot-docker:1
       docker push stevedillon1/gs-spring-boot-docker:1
