@@ -1,5 +1,6 @@
 # Maven
 
+
 # Build your Java project and run tests with Apache Maven.
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
@@ -22,4 +23,9 @@ steps:
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'install dockerfile:build '
 
-
+- task: CmdLine@2
+  inputs:
+    script: |
+      azure acr login --name SteveDillon1
+      docker tag springio/gs-spring-boot-docker SteveDillon1/gs-spring-boot-docker:1
+      docker push SteveDillon1/gs-spring-boot-docker:1
