@@ -108,8 +108,13 @@ To get started quickly, you can run Jib without even changing your `pom.xml`:
 $ ./mvnw com.google.cloud.tools:jib-maven-plugin:dockerBuild -Dimage=springio/gs-spring-boot-docker
 ```
 
-To push to a Docker registry you use the `docker` goal, instead of `dockerbuild`.
-To do that you will need to have permission to push to Dockerhub. You won't have permission to push to `springio` by default, so change the image prefix to your own Dockerhub ID, and `docker login` to make sure you are authenticated before you run `mvn`.
+To push to a Docker registry you use the `build` goal, instead of `dockerBuild`, i.e.
+
+```
+$ ./mvnw com.google.cloud.tools:jib-maven-plugin:build -Dimage=springio/gs-spring-boot-docker
+```
+
+To do that you will need to have permission to push to Dockerhub, which you won't have by default. Change the image prefix to your own Dockerhub ID, and `docker login` to make sure you are authenticated before you run Maven.
 
 === Build a Docker Image with Gradle
 If you are using Gradle you need to add a new plugin like this:
