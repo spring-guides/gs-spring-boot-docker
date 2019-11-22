@@ -101,7 +101,20 @@ To take advantage of the clean separation between dependencies and application r
 include::complete/Dockerfile[]
 ----
 
-This Dockerfile has a `DEPENDENCY` parameter pointing to a directory where we have unpacked the fat jar. If we get that right, it already contains a `BOOT-INF/lib` directory with the dependency jars in it, and a `BOOT-INF/classes` directory with the application classes in it. Notice that we are using the application's own main class `hello.Application` (this is faster than using the indirection provided by the fat jar launcher).
+This Dockerfile has a `DEPENDENCY` parameter pointing to a directory where we have unpacked the fat jar. From a Maven build:
+
+```
+$ mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
+```
+
+or from a Gradle build:
+
+```
+$ mkdir -p build/dependency && (cd build/dependency; jar -xf ../libs/*.jar)
+```
+
+
+If we get that right, it already contains a `BOOT-INF/lib` directory with the dependency jars in it, and a `BOOT-INF/classes` directory with the application classes in it. Notice that we are using the application's own main class `hello.Application` (this is faster than using the indirection provided by the fat jar launcher).
 
 NOTE: if you are using boot2docker you need to run it *first* before you do anything with the Docker command line or with the build tools (it runs a daemon process that handles the work for you in a virtual machine).
 
@@ -111,6 +124,13 @@ To build the image you can use the Docker command line. For example:
 $ docker build -t springio/gs-spring-boot-docker .
 ```
 
+From a Gradle build, add the explicit build args:
+
+```
+$ docker build --build-args DEPENDENCY=build/dependency -t springio/gs-spring-boot-docker .
+```
+
+TIP: Of course if you only used Gradle, you could just change the `Dockerfile` to make the default value of `DEPENDENCY` match the location of the unpacked archive.
 
 Instead of building with the Docker command line, you might want to use a build plugin. Google has an open source tool called https://github.com/GoogleContainerTools/jib[Jib] that has Maven and Gradle plugins. Probably the most interesting thing about it is that you don't need docker - it builds the image using the same standard output as you get from `docker build` but doesn't use `docker` unless you ask it to - so it works in environments where docker is not installed (not uncommon in build servers). 
 
