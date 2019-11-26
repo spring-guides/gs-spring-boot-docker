@@ -34,7 +34,7 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 Now you can create a simple application.
 
 `src/main/java/hello/Application.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/main/java/hello/Application.java[]
 ----
