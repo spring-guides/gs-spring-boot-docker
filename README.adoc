@@ -76,13 +76,13 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
 You can run it (if you are using Maven) with
 
 ```
-$ docker build -t springio/gs-spring-boot-docker .
+docker build -t springio/gs-spring-boot-docker .
 ```
 
 or (if you are using Gradle):
 
 ```
-$ docker build --build-args JAR_FILE=build/libs/*.jar -t springio/gs-spring-boot-docker .
+docker build --build-args JAR_FILE=build/libs/*.jar -t springio/gs-spring-boot-docker .
 ```
 
 This command builds an image and tags it as `springio/gs-spring-boot-docker`.
@@ -104,13 +104,13 @@ include::complete/Dockerfile[]
 This Dockerfile has a `DEPENDENCY` parameter pointing to a directory where we have unpacked the fat jar. From a Maven build:
 
 ```
-$ mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
+mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 ```
 
 or from a Gradle build:
 
 ```
-$ mkdir -p build/dependency && (cd build/dependency; jar -xf ../libs/*.jar)
+mkdir -p build/dependency && (cd build/dependency; jar -xf ../libs/*.jar)
 ```
 
 
@@ -121,13 +121,13 @@ NOTE: if you are using boot2docker you need to run it *first* before you do anyt
 To build the image you can use the Docker command line. For example:
 
 ```
-$ docker build -t springio/gs-spring-boot-docker .
+docker build -t springio/gs-spring-boot-docker .
 ```
 
 From a Gradle build, add the explicit build args:
 
 ```
-$ docker build --build-args DEPENDENCY=build/dependency -t springio/gs-spring-boot-docker .
+docker build --build-args DEPENDENCY=build/dependency -t springio/gs-spring-boot-docker .
 ```
 
 TIP: Of course if you only used Gradle, you could just change the `Dockerfile` to make the default value of `DEPENDENCY` match the location of the unpacked archive.
@@ -138,13 +138,13 @@ Instead of building with the Docker command line, you might want to use a build 
 To get started quickly, you can run Jib without even changing your `pom.xml`:
 
 ```
-$ ./mvnw com.google.cloud.tools:jib-maven-plugin:dockerBuild -Dimage=springio/gs-spring-boot-docker
+./mvnw com.google.cloud.tools:jib-maven-plugin:dockerBuild -Dimage=springio/gs-spring-boot-docker
 ```
 
 To push to a Docker registry you use the `build` goal, instead of `dockerBuild`, i.e.
 
 ```
-$ ./mvnw com.google.cloud.tools:jib-maven-plugin:build -Dimage=springio/gs-spring-boot-docker
+./mvnw com.google.cloud.tools:jib-maven-plugin:build -Dimage=springio/gs-spring-boot-docker
 ```
 
 To do that you will need to have permission to push to Dockerhub, which you won't have by default. Change the image prefix to your own Dockerhub ID, and `docker login` to make sure you are authenticated before you run Maven.
@@ -184,13 +184,13 @@ include::complete/build.gradle[tag=plugin]
 You can build a tagged docker image with Gradle in one command:
 
 ```
-$ ./gradlew jibDockerBuild --image=springio/gs-spring-boot-docker
+./gradlew jibDockerBuild --image=springio/gs-spring-boot-docker
 ```
 
 As with the Maven build, there is also a build task to build and push to the Docker registry:
 
 ```
-$ ./gradlew jib --image=springio/gs-spring-boot-docker
+./gradlew jib --image=springio/gs-spring-boot-docker
 ```
 
 If you have authenticated with `docker` on the command line, the image push will authenticate from your local `~/.docker` configuration.
@@ -202,7 +202,7 @@ A "docker push" (or build plugin with "jib") in the example will fail for you (u
 You do NOT have to register with docker or publish anything to run a docker image that was built locally. If you built with Docker (from the command line or from Jib), you still have a locally tagged image, and you can run it like this:
 
 ----
-$ docker run -p 8080:8080 -t springio/gs-spring-boot-docker
+docker run -p 8080:8080 -t springio/gs-spring-boot-docker
 ....
 2015-03-31 13:25:48.035  INFO 1 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
 2015-03-31 13:25:48.037  INFO 1 --- [           main] hello.Application                        : Started Application in 5.613 seconds (JVM running for 7.293)
@@ -229,7 +229,7 @@ http://192.168.59.103:8080, the public facing IP of the VM.
 When it is running you can see in the list of containers, e.g:
 
 ----
-$ docker ps
+docker ps
 CONTAINER ID        IMAGE                                   COMMAND                  CREATED             STATUS              PORTS                    NAMES
 81c723d22865        springio/gs-spring-boot-docker:latest   "java -Djava.secur..."   34 seconds ago      Up 33 seconds       0.0.0.0:8080->8080/tcp   goofy_brown
 ----
@@ -237,27 +237,27 @@ CONTAINER ID        IMAGE                                   COMMAND             
 and to shut it down again you can `docker stop` with the container ID from the listing above (yours will be different):
 
 ----
-$ docker stop goofy_brown
+docker stop goofy_brown
 81c723d22865
 ----
 
 If you like you can also delete the container (it is persisted in your filesystem under `/var/lib/docker` somewhere) when you are finished with it:
 
 ----
-$ docker rm goofy_brown
+docker rm goofy_brown
 ----
 
 === Using Spring Profiles
 Running your freshly minted Docker image with Spring profiles is as easy as passing an environment variable to the Docker run command
 
 ----
-$ docker run -e "SPRING_PROFILES_ACTIVE=prod" -p 8080:8080 -t springio/gs-spring-boot-docker
+docker run -e "SPRING_PROFILES_ACTIVE=prod" -p 8080:8080 -t springio/gs-spring-boot-docker
 ----
 
 or
 
 ----
-$ docker run -e "SPRING_PROFILES_ACTIVE=dev" -p 8080:8080 -t springio/gs-spring-boot-docker
+docker run -e "SPRING_PROFILES_ACTIVE=dev" -p 8080:8080 -t springio/gs-spring-boot-docker
 ----
 
 === Debugging the application in a Docker container
@@ -267,7 +267,7 @@ To enable this feature pass a java agent settings in JAVA_OPTS variable and map 
  access container by IP without https://github.com/docker/for-mac/issues/171[black magic usage].
 
 ----
-$ docker run -e "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n" -p 8080:8080 -p 5005:5005 -t springio/gs-spring-boot-docker
+docker run -e "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n" -p 8080:8080 -p 5005:5005 -t springio/gs-spring-boot-docker
 ----
 
 == Summary
