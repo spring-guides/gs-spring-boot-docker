@@ -70,7 +70,7 @@ FROM openjdk:8-jdk-alpine
 VOLUME /tmp
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+ENTRYPOINT ["java","-jar","/app.jar"]
 ----
 
 You can run it (if you are using Maven) with
@@ -91,7 +91,7 @@ This Dockerfile is very simple, but that's all you need to run a Spring Boot app
 
 NOTE: We added a `VOLUME` pointing to "/tmp" because that is where a Spring Boot application creates working directories for Tomcat by default. The effect is to create a temporary file on your host under "/var/lib/docker" and link it to the container under "/tmp". This step is optional for the simple app that we wrote here, but can be necessary for other Spring Boot applications if they need to actually write in the filesystem.
 
-NOTE: To reduce http://wiki.apache.org/tomcat/HowTo/FasterStartUp#Entropy_Source[Tomcat startup time] we added a system property pointing to "/dev/urandom" as a source of entropy. This is not necessary with more recent versions of Spring Boot, if you use the "standard" version of Tomcat (or any other web server).
+NOTE: To reduce http://wiki.apache.org/tomcat/HowTo/FasterStartUp#Entropy_Source[Tomcat startup time] we formerly added a system property pointing to "/dev/urandom" as a source of entropy. This is not necessary anymore with http://openjdk.java.net/jeps/123[JDK 8 or later].
 
 To take advantage of the clean separation between dependencies and application resources in a Spring Boot fat jar file, we will use a slightly different implementation of the Dockerfile:
 
