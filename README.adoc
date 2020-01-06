@@ -67,8 +67,6 @@ Docker has a simple https://docs.docker.com/reference/builder/["Dockerfile"] fil
 [source]
 ----
 FROM openjdk:8-jdk-alpine
-RUN addgroup -S spring && adduser -S spring -G spring
-USER spring:spring
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
@@ -92,9 +90,21 @@ This Dockerfile is very simple, but that's all you need to run a Spring Boot app
 
 NOTE: To reduce https://wiki.apache.org/tomcat/HowTo/FasterStartUp#Entropy_Source[Tomcat startup time] we formerly added a system property pointing to "/dev/urandom" as a source of entropy. This is not necessary anymore with http://openjdk.java.net/jeps/123[JDK 8 or later].
 
-NOTE: Running applications with user privileges helps to mitigate some risks. See [Can a root user inside a Docker/LXC break the security of the whole system?](https://security.stackexchange.com/questions/106860/can-a-root-user-inside-a-docker-lxc-break-the-security-of-the-whole-system).
+Running applications with user privileges helps to mitigate some risks (see for example https://security.stackexchange.com/questions/106860/can-a-root-user-inside-a-docker-lxc-break-the-security-of-the-whole-system[a thread on StackExchange]).
+So, an important improvement to the `Dockerfile` is to run the app as a non-root user:
 
-To take advantage of the clean separation between dependencies and application resources in a Spring Boot fat jar file, we will use a slightly different implementation of the Dockerfile:
+`Dockerfile`
+[source]
+----
+FROM openjdk:8-jdk-alpine
+RUN addgroup -S spring && adduser -S spring -G spring
+USER spring:spring
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
+----
+
+Also, to take advantage of the clean separation between dependencies and application resources in a Spring Boot fat jar file, we will use a slightly different implementation of the Dockerfile:
 
 `Dockerfile`
 [source]
