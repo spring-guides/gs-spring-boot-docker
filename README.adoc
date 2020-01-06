@@ -82,7 +82,7 @@ $ docker build -t springio/gs-spring-boot-docker .
 or (if you are using Gradle):
 
 ```
-$ docker build --build-args JAR_FILE=build/libs/*.jar -t springio/gs-spring-boot-docker .
+$ docker build --build-arg JAR_FILE=build/libs/*.jar -t springio/gs-spring-boot-docker .
 ```
 
 This command builds an image and tags it as `springio/gs-spring-boot-docker`.
@@ -127,7 +127,7 @@ $ docker build -t springio/gs-spring-boot-docker .
 From a Gradle build, add the explicit build args:
 
 ```
-$ docker build --build-args DEPENDENCY=build/dependency -t springio/gs-spring-boot-docker .
+$ docker build --build-arg DEPENDENCY=build/dependency -t springio/gs-spring-boot-docker .
 ```
 
 TIP: Of course if you only used Gradle, you could just change the `Dockerfile` to make the default value of `DEPENDENCY` match the location of the unpacked archive.
