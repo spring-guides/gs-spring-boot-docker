@@ -67,7 +67,8 @@ Docker has a simple https://docs.docker.com/reference/builder/["Dockerfile"] fil
 [source]
 ----
 FROM openjdk:8-jdk-alpine
-VOLUME /tmp
+RUN addgroup -S spring && adduser -S spring -G spring
+USER spring:spring
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
@@ -87,9 +88,11 @@ $ docker build --build-arg JAR_FILE=build/libs/*.jar -t springio/gs-spring-boot-
 
 This command builds an image and tags it as `springio/gs-spring-boot-docker`.
 
-This Dockerfile is very simple, but that's all you need to run a Spring Boot app with no frills: just Java and a JAR file. The build will `COPY` the project JAR file into the container as "app.jar" and then is executed in the `ENTRYPOINT`. The array form of the Dockerfile `ENTRYPOINT` is used so that there is no shell wrapping the java process. The https://spring.io/guides/topicals/spring-boot-docker[Topical Guide on Docker] goes into this topic in more detail.
+This Dockerfile is very simple, but that's all you need to run a Spring Boot app with no frills: just Java and a JAR file. The build will create a spring user and a spring group to run the application. It will then `COPY` the project JAR file into the container as "app.jar" that will be executed in the `ENTRYPOINT`. The array form of the Dockerfile `ENTRYPOINT` is used so that there is no shell wrapping the java process. The https://spring.io/guides/topicals/spring-boot-docker[Topical Guide on Docker] goes into this topic in more detail.
 
 NOTE: To reduce https://wiki.apache.org/tomcat/HowTo/FasterStartUp#Entropy_Source[Tomcat startup time] we formerly added a system property pointing to "/dev/urandom" as a source of entropy. This is not necessary anymore with http://openjdk.java.net/jeps/123[JDK 8 or later].
+
+NOTE: Running applications with user privileges helps to mitigate some risks. See [Can a root user inside a Docker/LXC break the security of the whole system?](https://security.stackexchange.com/questions/106860/can-a-root-user-inside-a-docker-lxc-break-the-security-of-the-whole-system).
 
 To take advantage of the clean separation between dependencies and application resources in a Spring Boot fat jar file, we will use a slightly different implementation of the Dockerfile:
 
