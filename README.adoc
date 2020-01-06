@@ -267,7 +267,7 @@ To enable this feature pass a java agent settings in JAVA_OPTS variable and map 
  access container by IP without https://github.com/docker/for-mac/issues/171[black magic usage].
 
 ----
-$ docker run -e "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n" -p 8080:8080 -p 5005:5005 -t springio/gs-spring-boot-docker
+$ docker run -e "JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n" -p 8080:8080 -p 5005:5005 -t springio/gs-spring-boot-docker
 ----
 
 == Summary
