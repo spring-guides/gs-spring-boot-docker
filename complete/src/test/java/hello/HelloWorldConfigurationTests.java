@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *	  http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,17 +34,17 @@ import org.springframework.test.context.junit4.SpringRunner;
 @DirtiesContext
 public class HelloWorldConfigurationTests {
 
-    @LocalServerPort
-    private int port;
+	@LocalServerPort
+	private int port;
 
-    @Autowired
-    private TestRestTemplate restTemplate;
+	@Autowired
+	private TestRestTemplate restTemplate;
 
-    @Test
-    public void testGreeting() throws Exception {
-        ResponseEntity<String> entity = restTemplate
-                .getForEntity("http://localhost:" + this.port + "/", String.class);
-        assertEquals(HttpStatus.OK, entity.getStatusCode());
-    }
+	@Test
+	public void testGreeting() throws Exception {
+		ResponseEntity<String> entity = restTemplate
+				.getForEntity("http://localhost:" + this.port + "/", String.class);
+		assertEquals(HttpStatus.OK, entity.getStatusCode());
+	}
 
 }

@@ -10,7 +10,7 @@ exit $ret
 fi
 rm -rf target
 
-./mvnw clean install dockerfile:build
+./mvnw clean install com.google.cloud.tools:jib-maven-plugin:dockerBuild
 ret=$?
 if [ $ret -ne 0 ]; then
 exit $ret
@@ -24,7 +24,7 @@ exit $ret
 fi
 rm -rf build
 
-./gradlew build docker
+./gradlew build jibDockerBuild
 ret=$?
 if [ $ret -ne 0 ]; then
 exit $ret
