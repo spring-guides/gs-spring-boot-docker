@@ -116,6 +116,8 @@ $ mkdir -p build/dependency && (cd build/dependency; jar -xf ../libs/*.jar)
 
 If we get that right, it already contains a `BOOT-INF/lib` directory with the dependency jars in it, and a `BOOT-INF/classes` directory with the application classes in it. Notice that we are using the application's own main class `hello.Application` (this is faster than using the indirection provided by the fat jar launcher).
 
+NOTE: exploding the jar file can result in the classpath order being https://github.com/spring-projects/spring-boot/issues/9128#issuecomment-510577157[different at runtime]. A well-behaved and well-written application should not care about this, but you may see behaviour changes if the dependencies are not carefully managed.
+
 NOTE: if you are using boot2docker you need to run it *first* before you do anything with the Docker command line or with the build tools (it runs a daemon process that handles the work for you in a virtual machine).
 
 To build the image you can use the Docker command line. For example:
