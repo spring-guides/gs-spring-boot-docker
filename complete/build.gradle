@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 buildscript {
     repositories {
       maven {
@@ -11,6 +12,12 @@ buildscript {
         classpath('com.google.cloud.tools.jib:com.google.cloud.tools.jib.gradle.plugin:1.8.0')
 // end::build[]
     }
+=======
+plugins {
+	id 'org.springframework.boot' version '2.2.0.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	id 'java'
+>>>>>>> Upgraded to Spring Boot 2.2
 }
 
 apply plugin: 'java'
@@ -35,5 +42,18 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+<<<<<<< HEAD
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+=======
+	// tag::build[]
+	implementation 'gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.22.1'
+	// end::build[]
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+test {
+	useJUnitPlatform()
+>>>>>>> Upgraded to Spring Boot 2.2
 }
