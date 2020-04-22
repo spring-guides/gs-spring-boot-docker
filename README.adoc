@@ -156,6 +156,8 @@ To get started quickly, you can run Jib without even changing your `pom.xml` (an
 $ ./mvnw com.google.cloud.tools:jib-maven-plugin:dockerBuild -Dimage=springio/gs-spring-boot-docker
 ```
 
+You can add `-Djib.container.user=user:group` if you want to avoid running as root. You also have to set `-Djib.from.image` to a base image that has those user accounts (the default base image is `gcr.io/distroless` which only has a `root` user).
+
 To push to a Docker registry you use the `build` goal, instead of `dockerBuild`, i.e.
 
 ```
@@ -202,7 +204,7 @@ You can build a tagged docker image with Gradle in one command:
 $ ./gradlew jibDockerBuild --image=springio/gs-spring-boot-docker
 ```
 
-As with the Maven build, there is also a build task to build and push to the Docker registry:
+As with the Maven build, you can add `-Djib.container.user=user:group` if you want to avoid running as root, as long as you also set `-Djib.from.image` to a base image that has those user accounts. And there is also a build task to build and push to the Docker registry:
 
 ```
 $ ./gradlew jib --image=springio/gs-spring-boot-docker
