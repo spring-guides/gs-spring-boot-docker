@@ -122,7 +122,7 @@ $ docker run -p 8080:8080 springio/gs-spring-boot-docker
 ...
 ```
 
-Also, to take advantage of the clean separation between dependencies and application resources in a Spring Boot fat jar file, we will use a slightly different implementation of the Dockerfile:
+Also, there is a clean separation between dependencies and application resources in a Spring Boot fat jar file, and we can use that fact to improve performance. The key is to create layers in the container filesystem. The layers are cached both at build time and at runtime (in most runtimes) so we want the most frequently changing resources, usually the class and static resources in the application itself, to be layered _after_ the more slowly changing resources.  Thus we will use a slightly different implementation of the Dockerfile:
 
 `Dockerfile`
 [source]
