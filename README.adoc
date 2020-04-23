@@ -4,13 +4,13 @@
 :icons: font
 :source-highlighter: prettify
 
-This guide walks you through the process of building a https://docker.com[Docker] image for running a Spring Boot application.
+This guide walks you through the process of building a https://docker.com[Docker] image for running a Spring Boot application. We start with a basic `Dockerfile` and make a few tweaks. Then we show a couple of options that use build plugins (for Maven and Gradle) instead of `docker`. This is a "getting started" guide, so the scope is limited to a few basic needs. If you are building container images for production use there are many things to consider and it is not possible to cover them all in a short guide.
+
+NOTE: There is also a https://spring.io/guides/topicals/spring-boot-docker[Topical Guide on Docker], which covers a wider range of choices that we have here, and in much more detail.
 
 == What you'll build
 
 https://docker.com[Docker] is a Linux container management toolkit with a "social" aspect, allowing users to publish container images and consume those published by others. A Docker image is a recipe for running a containerized process, and in this guide we will build one for a simple Spring boot application.
-
-NOTE: There is also a https://spring.io/guides/topicals/spring-boot-docker[Topical Guide on Docker], which covers a wider range of choices that we have here, and in much more detail.
 
 == What you'll need
 :java_version: 1.8
