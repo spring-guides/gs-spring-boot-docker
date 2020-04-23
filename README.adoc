@@ -104,6 +104,24 @@ COPY ${JAR_FILE} app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
 ----
 
+You can see the username in the application startup logs (note the "started by" in the first `INFO` log):
+
+```
+$ docker build -t springio/gs-spring-boot-docker .
+$ docker run -p 8080:8080 springio/gs-spring-boot-docker
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.2.1.RELEASE)
+
+2020-04-23 07:29:41.729  INFO 1 --- [           main] hello.Application                        : Starting Application on b94c86e91cf9 with PID 1 (/app started by spring in /)
+...
+```
+
 Also, to take advantage of the clean separation between dependencies and application resources in a Spring Boot fat jar file, we will use a slightly different implementation of the Dockerfile:
 
 `Dockerfile`
