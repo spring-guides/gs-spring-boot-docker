@@ -6,10 +6,7 @@ buildscript {
       mavenCentral()
     }
     dependencies {
-        classpath('org.springframework.boot:spring-boot-gradle-plugin:2.2.1.RELEASE')
-// tag::build[]
-        classpath('com.google.cloud.tools.jib:com.google.cloud.tools.jib.gradle.plugin:1.8.0')
-// end::build[]
+        classpath('org.springframework.boot:spring-boot-gradle-plugin:2.3.0.RELEASE')
     }
 }
 
@@ -18,9 +15,6 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-// tag::plugin[]
-apply plugin: 'com.google.cloud.tools.jib'
-// end::plugin[]
 
 group = 'springio'
 
