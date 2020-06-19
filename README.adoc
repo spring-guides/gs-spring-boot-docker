@@ -277,3 +277,7 @@ The following guides may also be helpful:
 * https://spring.io/guides/topicals/spring-boot-docker[Topical Guide on Spring Boot with Docker] (more depth than this guide)
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
+
+
+== LICENSE
+[LICENSE](LICENSE)
