@@ -188,7 +188,7 @@ $ ./gradlew bootBuildImage --imageName=springio/gs-spring-boot-docker
 
 A "docker push" in the example will fail for you (unless you are part of the "springio" organization at Dockerhub), but if you change the configuration to match your own docker ID then it should succeed, and you will have a new tagged, deployed image.
 
-You do NOT have to register with docker or publish anything to run a docker image that was built locally. If you built with Docker (from the command line or from Sprng Boot), you still have a locally tagged image, and you can run it like this:
+You do NOT have to register with docker or publish anything to run a docker image that was built locally. If you built with Docker (from the command line or from Spring Boot), you still have a locally tagged image, and you can run it like this:
 
 ----
 $ docker run -p 8080:8080 -t springio/gs-spring-boot-docker
