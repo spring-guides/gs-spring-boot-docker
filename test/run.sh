@@ -10,7 +10,7 @@ exit $ret
 fi
 rm -rf target
 
-./mvnw clean install com.google.cloud.tools:jib-maven-plugin:dockerBuild
+./mvnw spring-boot:build-image
 ret=$?
 if [ $ret -ne 0 ]; then
 exit $ret
@@ -24,7 +24,7 @@ exit $ret
 fi
 rm -rf build
 
-./gradlew build jibDockerBuild
+./gradlew bootBuildImage
 ret=$?
 if [ $ret -ne 0 ]; then
 exit $ret
