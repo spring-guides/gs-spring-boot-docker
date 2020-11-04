@@ -167,7 +167,7 @@ To use the `DEPENDENCY` parameter with Maven, run the following command:
 ====
 [source,bash]
 ----
-$ mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
+mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 ----
 ====
 
