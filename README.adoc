@@ -86,7 +86,7 @@ If you use Gradle, you can run it with the following command:
 ====
 [source,bash,subs="attributes"]
 ----
-docker build --build-arg JAR_FILE=build/libs/*.jar -t springio/gs-spring-boot-docker .
+docker build --build-arg JAR_FILE=build/libs/\*.jar -t springio/gs-spring-boot-docker .
 ----
 ====
 
