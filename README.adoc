@@ -175,7 +175,7 @@ include::complete/Dockerfile[]
 ----
 ====
 
-This Dockerfile has a `DEPENDENCY` parameter pointing to a directory where we have unpacked the fat JAR. To use the `DEPENDENCy` parameter with Gradle, run the following command:
+This Dockerfile has a `DEPENDENCY` parameter pointing to a directory where we have unpacked the fat JAR. To use the `DEPENDENCY` parameter with Gradle, run the following command:
 
 ====
 [source,bash]
