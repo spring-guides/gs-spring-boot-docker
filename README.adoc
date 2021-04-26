@@ -14,7 +14,7 @@ https://docker.com[Docker] is a Linux container management toolkit with a "`soci
 
 == What You Will Need
 :java_version: 1.8
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/prereq_editor_jdk_buildtools.adoc[]
 
 If you are NOT using a Linux machine, you need a virtualized server. If you install VirtualBox, other tools like the Mac's `boot2docker` can seamlessly manage it for you. Visit https://www.virtualbox.org/wiki/Downloads[VirtualBox's download site] and pick the version for your machine. Download and install. Do not worry about actually running it.
 
@@ -371,4 +371,4 @@ The following guides may also be helpful:
 * https://spring.io/guides/gs/spring-boot/[Building an Application with Spring Boot]
 * https://spring.io/guides/topicals/spring-boot-docker[Topical Guide on Spring Boot with Docker] (more depth than this guide)
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/footer.adoc[]
