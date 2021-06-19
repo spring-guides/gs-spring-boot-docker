@@ -80,7 +80,7 @@ If you use Gradle, run the following command:
 ====
 [bash,subs="attributes"]
 ----
-./gradlew build && java -jar build/libs/{project_id}-0.1.0.jar
+./gradlew build && java -jar build/libs/initial-0.0.1-SNAPSHOT.jar
 ----
 ====
 
@@ -89,7 +89,7 @@ If you use Maven, run the following command:
 ====
 [bash,subs="attributes"]
 ----
-./mvnw package && java -jar target/{project_id}-0.1.0.jar
+./mvnw package && java -jar target/spring-boot-docker-0.0.1-SNAPSHOT.jar
 ----
 ====
 
