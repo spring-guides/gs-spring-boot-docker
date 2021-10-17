@@ -18,8 +18,9 @@ public class HelloController {
   }
 
   @PostMapping(value = "create")
-  public String getHello(@RequestBody Hello hello) {
+  public Hello create(@RequestBody Hello hello) {
     log.info("creating hello");
-    return "Hello new user ID: " + UUID.randomUUID();
+    hello.setUuid(UUID.randomUUID());
+    return hello;
   }
 }
