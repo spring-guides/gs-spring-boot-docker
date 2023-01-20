@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 7777
 
 #TODO: figure out why I need this here and in bootstrap.yml
 spring:
