@@ -13,7 +13,7 @@ NOTE: There is also a https://spring.io/guides/topicals/spring-boot-docker[Topic
 https://docker.com[Docker] is a Linux container management toolkit with a "`social`" aspect, letting users publish container images and consume those published by others. A Docker image is a recipe for running a containerized process. In this guide, we build one for a simple Spring boot application.
 
 == What You Will Need
-:java_version: 1.8
+:java_version: 17
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/prereq_editor_jdk_buildtools.adoc[]
 
 If you are NOT using a Linux machine, you need a virtualized server. If you install VirtualBox, other tools like the Mac's `boot2docker` can seamlessly manage it for you. Visit https://www.virtualbox.org/wiki/Downloads[VirtualBox's download site] and pick the version for your machine. Download and install. Do not worry about actually running it.
@@ -23,7 +23,7 @@ You also need https://docker.com[Docker], which only runs on 64-bit machines. Se
 [[scratch]]
 == Starting with Spring Initializr
 
-You can use this https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.5.5&packaging=jar&jvmVersion=11&groupId=com.example&artifactId=spring-boot-docker&name=spring-boot-docker&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.spring-boot-docker&dependencies=web[pre-initialized project] and click Generate to download a ZIP file. This project is configured to fit the examples in this tutorial.
+You can use this https://start.spring.io/#!type=maven-project&language=java&packaging=jar&jvmVersion=11&groupId=com.example&artifactId=spring-boot-docker&name=spring-boot-docker&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.spring-boot-docker&dependencies=web[pre-initialized project] and click Generate to download a ZIP file. This project is configured to fit the examples in this tutorial.
 
 To manually initialize the project:
 
