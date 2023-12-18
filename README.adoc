@@ -1,4 +1,3 @@
-:spring_version: current
 :toc:
 :project_id: gs-spring-boot-docker
 :icons: font
@@ -206,7 +205,7 @@ docker build -t springio/gs-spring-boot-docker .
 ----
 ====
 
-TIP: Of course, if you use only Gradle, you could change the `Dockerfile` to make the default value of `DEPENDENCY` match the location of the unpacked archive.
+TIP: If you use only Gradle, you could change the `Dockerfile` to make the default value of `DEPENDENCY` match the location of the unpacked archive.
 
 Instead of building with the Docker command line, you might want to use a build plugin. Spring Boot supports building a container from Maven or Gradle by using its own build plugin. Google also has an open source tool called https://github.com/GoogleContainerTools/jib[Jib] that has Maven and Gradle plugins. Probably the most interesting thing about this approach is that you do not need a `Dockerfile`. You can build the image by using the same standard container format as you get from `docker build`. Also, it can work in environments where docker is not installed (not uncommon in build servers).
 
