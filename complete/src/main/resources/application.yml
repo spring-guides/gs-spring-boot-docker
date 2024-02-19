@@ -1,10 +1,17 @@
 server:
-  port: 8080
+  port: 5908
+  servlet.context-path: /api/v1
 
-#TODO: figure out why I need this here and in bootstrap.yml
 spring:
   application:
-    name: testLatticeApp
+    name: gsapi
+
+logging:
+  file.name: gsapi.log
+  level:
+    org:
+      springframework:
+        web: debug
 
 ribbon:
   ServerListRefreshInterval: 1000
