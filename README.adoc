@@ -253,7 +253,7 @@ Calculated JVM Memory Configuration: -XX:MaxDirectMemorySize=10M -XX:MaxMetaspac
 ----
 ====
 
-NOTE: The CF memory calculator is used at runtime to size the JVM to fit the container.
+NOTE: The buildpack uses a memory calculator at runtime to size the JVM to fit the container.
 
 The application is then available on http://localhost:8080 (visit that and it says, "`Hello Docker World`").
 
