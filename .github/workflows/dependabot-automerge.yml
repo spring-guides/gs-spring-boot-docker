@@ -1,0 +1,11 @@
+name: Dependabot Automerge
+
+permissions:
+  contents: write
+  pull_requests: write
+
+on: pull_request_target
+
+jobs:
+  build:
+    uses: spring-guides/getting-started-macros/.github/workflows/automerge-dependabot.yml@main
