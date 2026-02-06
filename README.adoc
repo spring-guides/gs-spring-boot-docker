@@ -83,7 +83,7 @@ Docker has a simple https://docs.docker.com/reference/builder/["Dockerfile"] fil
 ====
 [source]
 ----
-FROM eclipse-temurin:17-jdk-alpine
+FROM eclipse-temurin:17
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
@@ -121,7 +121,7 @@ So, an important improvement to the `Dockerfile` is to run the application as a 
 ====
 [source]
 ----
-FROM eclipse-temurin:17-jdk-alpine
+FROM eclipse-temurin:17
 RUN addgroup -S spring && adduser -S spring -G spring
 USER spring:spring
 ARG JAR_FILE=target/*.jar
