@@ -110,7 +110,7 @@ docker build -t springio/gs-spring-boot-docker .
 
 This command builds an image and tags it as `springio/gs-spring-boot-docker`.
 
-This Dockerfile is very simple, but it is all you need to run a Spring Boot app with no frills: just Java and a JAR file. The build creates a spring user and a spring group to run the application. It is then copied (by the `COPY` command) the project JAR file into the container as `app.jar`, which is run in the `ENTRYPOINT`. The array form of the Dockerfile `ENTRYPOINT` is used so that there is no shell wrapping the Java process. The https://spring.io/guides/topicals/spring-boot-docker[Topical Guide on Docker] goes into this topic in more detail.
+This Dockerfile is very simple, but it is all you need to run a Spring Boot app with no frills: just Java and a JAR file: it copies (using the `COPY` command) the project JAR file into the container as `app.jar`, which is run in the `ENTRYPOINT`. The array form of the Dockerfile `ENTRYPOINT` is used so that there is no shell wrapping the Java process.
 
 NOTE: To reduce https://wiki.apache.org/tomcat/HowTo/FasterStartUp#Entropy_Source[Tomcat startup time], we used to add a system property pointing to `/dev/urandom` as a source of entropy. This is not necessary anymore with http://openjdk.java.net/jeps/123[JDK 8 or later].
 
@@ -348,6 +348,5 @@ The following guides may also be helpful:
 
 * https://spring.io/guides/gs/serving-web-content/[Serving Web Content with Spring MVC]
 * https://spring.io/guides/gs/spring-boot/[Building an Application with Spring Boot]
-* https://spring.io/guides/topicals/spring-boot-docker[Topical Guide on Spring Boot with Docker] (more depth than this guide)
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/footer.adoc[]
