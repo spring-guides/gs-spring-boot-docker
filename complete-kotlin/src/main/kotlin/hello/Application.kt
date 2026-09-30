@@ -9,13 +9,11 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class Application {
 
-	@RequestMapping("/")
-	fun home(): String {
-		return "Hello Docker World"
-	}
+    @RequestMapping("/")
+    fun home() = "Hello Docker World"
 
 }
 
 fun main(args: Array<String>) {
-	runApplication<Application>(*args)
+    runApplication<Application>(*args)
 }

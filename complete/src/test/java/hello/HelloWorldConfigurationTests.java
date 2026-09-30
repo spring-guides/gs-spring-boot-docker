@@ -15,30 +15,28 @@
  */
 package hello;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.test.web.servlet.client.RestTestClient;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@DirtiesContext
+@AutoConfigureRestTestClient
 public class HelloWorldConfigurationTests {
 
-	@LocalServerPort
-	private int port;
-
-	private final RestTemplate restTemplate = new RestTemplate();
+	@Autowired
+	private RestTestClient restTestClient;
 
 	@Test
-	public void testGreeting() throws Exception {
-		ResponseEntity<String> entity = restTemplate
-				.getForEntity("http://localhost:" + this.port + "/", String.class);
-		assertEquals(HttpStatus.OK, entity.getStatusCode());
+	public void testGreeting() {
+		restTestClient.get()
+				.uri("/")
+				.exchange()
+				.expectStatus().isOk()
+				.expectBody(String.class)
+				.isEqualTo("Hello Docker World");
 	}
 }
