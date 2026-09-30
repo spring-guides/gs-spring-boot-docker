@@ -1,5 +1,5 @@
 :toc:
-:project_id: gs-spring-boot-docker
+:project_id: spring-boot-docker-complete
 :icons: font
 :source-highlighter: prettify
 
@@ -20,35 +20,38 @@ You also need https://docker.com[Docker], see https://docs.docker.com/installati
 [[scratch]]
 == Starting with Spring Initializr
 
-You can use this https://start.spring.io/#!type=maven-project&language=java&packaging=jar&jvmVersion=11&groupId=com.example&artifactId=spring-boot-docker&name=spring-boot-docker&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.spring-boot-docker&dependencies=web[pre-initialized project] and click Generate to download a ZIP file. This project is configured to fit the examples in this tutorial.
+You can use this https://start.spring.io/#!type=gradle-project&jvmVersion=17&packaging=jar&groupId=com.example&artifactId=spring-boot-docker&packageName=hello&dependencies=web[pre-initialized project] and click Generate to download a ZIP file. This project is configured to fit the examples in this tutorial.
 
 To manually initialize the project:
 
 . Navigate to https://start.spring.io.
 This service pulls in all the dependencies you need for an application and does most of the setup for you.
-. Choose either Gradle or Maven and the language you want to use. This guide assumes that you chose Java.
+. Choose either Gradle or Maven and the language you want to use.
 . Click *Dependencies* and select *Spring Web*.
 . Click *Generate*.
 . Download the resulting ZIP file, which is an archive of a web application that is configured with your choices.
 
 NOTE: If your IDE has the Spring Initializr integration, you can complete this process from your IDE.
 
-NOTE: You can also fork the project from Github and open it in your IDE or other editor.
+NOTE: You can also fork the project from GitHub and open it in your IDE or other editor.
 
 [[initial]]
 == Set up a Spring Boot Application
 
 Now you can create a simple application:
 
-====
-`src/main/java/hello/Application.java`
-[source,java,tabsize=2]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 include::complete/src/main/java/hello/Application.java[]
 ----
-====
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/main/kotlin/hello/Application.kt[]
+----
 
-The class is flagged as a `@SpringBootApplication` and as a `@RestController`, meaning that it is ready for use by Spring MVC to handle web requests. `@RequestMapping` maps `/` to the `home()` method, which sends a `Hello World` response. The `main()` method uses Spring Boot's `SpringApplication.run()` method to launch an application.
+The class is flagged as a `@SpringBootApplication` and as a `@RestController`, meaning that it is ready for use by Spring MVC to handle web requests. `@RequestMapping` maps `/` to the `home()` method, which sends a `Hello World` response. The `main()` method uses Spring Boot's `SpringApplication.run()` method to launch an application. In Kotlin, `runApplication` is used instead.
 
 Now we can run the application without the Docker container (that is, in the host OS):
 
@@ -93,7 +96,7 @@ If you use Gradle, you can run it with the following command:
 ====
 [source,bash,subs="attributes"]
 ----
-docker build --build-arg JAR_FILE=build/libs/\*.jar -t springio/gs-spring-boot-docker .
+docker build --build-arg JAR_FILE=build/libs/\*-SNAPSHOT.jar -t springio/gs-spring-boot-docker .
 ----
 ====
 
@@ -117,7 +120,8 @@ So, an important improvement to the `Dockerfile` is to run the application as a 
 
 .Dockerfile
 ====
-[source]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 FROM eclipse-temurin:17
 RUN addgroup -S spring && adduser -S spring -G spring
@@ -126,13 +130,35 @@ ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
 ----
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+FROM eclipse-temurin:17
+RUN addgroup --system spring && adduser --system --ingroup spring spring
+USER spring:spring
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
+----
 ====
 
-You can see the username in the application startup logs when you build and run the application:
+You can see the username in the application startup logs when you build and run the application with Gradle:
 
 ====
 [source,bash]
 ----
+./gradlew build
+docker build --build-arg 'JAR_FILE=build/libs/*-SNAPSHOT.jar' -t springio/gs-spring-boot-docker .
+docker run -p 8080:8080 springio/gs-spring-boot-docker
+----
+====
+
+Or with Maven:
+
+====
+[source,bash]
+----
+./mvnw package
 docker build -t springio/gs-spring-boot-docker .
 docker run -p 8080:8080 springio/gs-spring-boot-docker
 ----
@@ -142,10 +168,9 @@ Note the `started by` in the first `INFO` log entry:
 
 ====
 [source,bash]
-----
- :: Spring Boot ::        (v2.2.1.RELEASE)
+:: Spring Boot ::                (v4.0.6)
 
-2020-04-23 07:29:41.729  INFO 1 --- [           main] hello.Application                        : Starting Application on b94c86e91cf9 with PID 1 (/app started by spring in /)
+2026-06-08T12:47:53.827Z  INFO 1 --- [testLatticeApp] [           main] hello.Application                        : Starting Application v0.0.1-SNAPSHOT using Java 17.0.19 with PID 1 (/app.jar started by spring in /)
 ...
 ----
 ====
@@ -154,10 +179,17 @@ Also, there is a clean separation between dependencies and application resources
 
 .Dockerfile
 ====
-[source]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 include::complete/Dockerfile[]
 ----
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/Dockerfile[]
+----
+
 ====
 
 This Dockerfile has a `DEPENDENCY` parameter pointing to a directory where we have unpacked the fat JAR. To use the `DEPENDENCY` parameter with Gradle, run the following command:
@@ -165,7 +197,7 @@ This Dockerfile has a `DEPENDENCY` parameter pointing to a directory where we ha
 ====
 [source,bash]
 ----
-mkdir -p build/dependency && (cd build/dependency; jar -xf ../libs/*.jar)
+mkdir -p build/dependency && (cd build/dependency; jar -xf $(ls ../libs/*.jar | grep -v plain))
 ----
 ====
 
@@ -177,7 +209,6 @@ To use the `DEPENDENCY` parameter with Maven, run the following command:
 mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 ----
 ====
-
 
 If we get that right, it already contains a `BOOT-INF/lib` directory with the dependency JARs in it, and a `BOOT-INF/classes` directory with the application classes in it. Notice that we use the application's own main class: `hello.Application`. (This is faster than using the indirection provided by the fat JAR launcher.)
 
@@ -220,7 +251,7 @@ You can build a tagged docker image with Gradle in one command:
 
 === Build a Docker Image with Maven
 
-To get started quickly, you can run the Spring Boot image generator without even changing your `pom.xml` (remember that the `Dockerfile`, if it is still, there is ignored):
+To get started quickly, you can run the Spring Boot image generator without even changing your `pom.xml` (remember that the `Dockerfile`, if it is still there, is ignored):
 
 ====
 [source,bash]
@@ -240,12 +271,13 @@ You do NOT have to register with docker or publish anything to run a docker imag
 ====
 [source,bash]
 ----
-$ docker run -p 8080:8080 -t springio/gs-spring-boot-docker
-Container memory limit unset. Configuring JVM for 1G container.
-Calculated JVM Memory Configuration: -XX:MaxDirectMemorySize=10M -XX:MaxMetaspaceSize=86381K -XX:ReservedCodeCacheSize=240M -Xss1M -Xmx450194K (Head Room: 0%, Loaded Class Count: 12837, Thread Count: 250, Total Memory: 1073741824)
-....
-2015-03-31 13:25:48.035  INFO 1 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
-2015-03-31 13:25:48.037  INFO 1 --- [           main] hello.Application                        : Started Application in 5.613 seconds (JVM running for 7.293)
+docker run -p 8080:8080 -t springio/gs-spring-boot-docker
+Calculating JVM memory based on 7373112K available memory
+For more information on this calculation, see https://paketo.io/docs/reference/java-reference/#memory-calculator
+Calculated JVM Memory Configuration: -XX:MaxDirectMemorySize=10M -Xmx6785158K -XX:MaxMetaspaceSize=75953K -XX:ReservedCodeCacheSize=240M -Xss1M (Total Memory: 7373112K, Thread Count: 250, Loaded Class Count: 10996, Headroom: 0%)
+...
+2026-06-08T12:52:44.656Z  INFO 1 --- [testLatticeApp] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-06-08T12:52:44.660Z  INFO 1 --- [testLatticeApp] [           main] hello.Application                        : Started Application in 0.678 seconds (process running for 0.843)
 ----
 ====
 
