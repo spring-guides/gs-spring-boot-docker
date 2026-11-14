@@ -11,11 +11,10 @@ public class Application {
 
 	@RequestMapping("/")
 	public String home() {
-		return "Hello Docker World";
+		return "Hello Docker World! This is from the Spring Boot application running inside a Docker container.";
 	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
-
 }
