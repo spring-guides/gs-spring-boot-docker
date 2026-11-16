@@ -19,7 +19,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the application...'
-                sh 'mvn clean package -DskipTests'
+                sh 'mvn -f complete/pom.xml clean package -DskipTests'
                 echo 'Application built successfully.'
             }
         } 
