@@ -7,5 +7,13 @@ pipeline {
                 echo 'Hello World'
             }
         }
+
+        stage('Checkout') {
+            steps {
+                echo 'Checking out the code...'
+                git branch: 'docker', url: 'https://github.com/PAVANKUMAR4/gs-spring-boot-docker.git'
+                echo 'Code checked out successfully.'
+            }
+        }
     }
 }
