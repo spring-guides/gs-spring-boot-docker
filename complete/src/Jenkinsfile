@@ -15,5 +15,13 @@ pipeline {
                 echo 'Code checked out successfully.'
             }
         }
+
+        stage('Build') {
+            steps {
+                echo 'Building the application...'
+                sh './mvnw clean package -DskipTests'
+                echo 'Application built successfully.'
+            }
+        }
     }
 }
