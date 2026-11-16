@@ -19,7 +19,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the application...'
-                sh './mvnw clean package -DskipTests'
+                sh './mvn clean package -DskipTests'
                 echo 'Application built successfully.'
             }
         } 
