@@ -41,9 +41,20 @@ pipeline {
 
                         echo "===== MAVEN VERSION ====="
                         mvn -version
-                        
+
                         echo "===== BUILD APPLICATION ====="
                         mvn clean package -DskipTests
+                    '''
+                }
+            }
+        }
+
+        stage('Run SonarQube Analysis') {
+            steps {
+                dir('complete') {
+                    sh '''
+                        echo "===== RUN SONARQUBE ANALYSIS ====="
+                        mvn sonar:sonar -Dsonar.projectKey=spring-boot-docker -Dsonar.host.url=http://sonarqube:9000
                     '''
                 }
             }
