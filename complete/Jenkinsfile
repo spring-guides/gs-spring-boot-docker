@@ -42,5 +42,16 @@ pipeline {
                 }
             }
         }
+
+        stage('Build Docker Image') {
+            steps {
+                dir('complete') {
+                    sh '''
+                        echo "===== BUILD DOCKER IMAGE ====="
+                        docker build -t spring-boot-docker .
+                    '''
+                }
+            }
+        }
     }
 }
