@@ -65,5 +65,49 @@ pipeline {
                 }
             }
         }
+
+        stage('Test Application') {
+            steps {
+                dir('complete') {
+                    sh '''
+                        echo "===== TEST APPLICATION ====="
+                        sleep 10
+                        curl -f http://localhost:8081/actuator/health || (echo "Application is not healthy" && exit 1)
+                    '''
+                }
+            }
+        }
+
+        stage('Cleanup') {
+            steps {
+                dir('complete') {
+                    sh '''
+                        echo "===== CLEANUP ====="
+                        docker rm -f spring-boot-docker-container || true
+                    '''
+                }
+            }
+        }
+
+        stage('Archive Artifacts') {
+            steps {
+                dir('complete') {
+                    archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                }
+            }
+        }
+
+        stage('Publish Docker image to Amazon ECR') {
+            steps {
+                dir('complete') {
+                    sh '''
+                        echo "===== PUBLISH DOCKER IMAGE TO AMAZON ECR ====="
+                        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <your_aws_account_id>.dkr.ecr.us-east-1.amazonaws.com
+                        docker tag spring-boot-docker:latest <your_aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/spring-boot-docker:latest
+                        docker push <your_aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/spring-boot-docker:latest
+                    '''
+                }
+            }
+        }
     }
 }
