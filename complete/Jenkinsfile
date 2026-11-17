@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment {
+        AWS_REGION = 'us-east-1'
+        ECR_REPOSITORY = 'spring-boot-docker'
+        ECR_REGISTRY = '588249212184.dkr.ecr.us-east-1.amazonaws.com'
+    }
+
     stages {
         stage('Hello World') {
             steps {
@@ -102,9 +108,9 @@ pipeline {
                 dir('complete') {
                     sh '''
                         echo "===== PUBLISH DOCKER IMAGE TO AMAZON ECR ====="
-                        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 588249212184.dkr.ecr.us-east-1.amazonaws.com
-                        docker tag spring-boot-docker:latest 588249212184.dkr.ecr.us-east-1.amazonaws.com/spring-boot-docker:latest
-                        docker push 588249212184.dkr.ecr.us-east-1.amazonaws.com/spring-boot-docker:latest
+                        aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}
+                        docker tag spring-boot-docker:latest ${ECR_REGISTRY}/${ECR_REPOSITORY}:${BUILD_NUMBER}
+                        docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:${BUILD_NUMBER}
                     '''
                 }
             }
