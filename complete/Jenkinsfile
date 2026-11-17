@@ -22,11 +22,11 @@ pipeline {
             }
         }
 
-
-        stage('Build Application') {
+        stage('Set up Environment') {
             steps {
                 dir('complete') {
                     sh '''
+                        echo "===== SET UP ENVIRONMENT ====="
                         export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
                         export PATH="${JAVA_HOME}/bin:${PATH}"
 
@@ -41,7 +41,16 @@ pipeline {
 
                         echo "===== MAVEN VERSION ====="
                         mvn -version
+                    '''
+                }
+            }
+        }
 
+
+        stage('Build Application') {
+            steps {
+                dir('complete') {
+                    sh '''
                         echo "===== BUILD APPLICATION ====="
                         mvn clean package -DskipTests
                     '''
