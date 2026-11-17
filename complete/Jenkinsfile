@@ -53,5 +53,17 @@ pipeline {
                 }
             }
         }
+
+        stage('Run Docker Container') {
+            steps {
+                dir('complete') {
+                    sh '''
+                        echo "===== RUN DOCKER CONTAINER ====="
+                        docker rm -f spring-boot-docker-container || true
+                        docker run -d -p 8081:8081 --name spring-boot-docker-container spring-boot-docker
+                    '''
+                }
+            }
+        }
     }
 }
