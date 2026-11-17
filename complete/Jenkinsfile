@@ -16,15 +16,31 @@ pipeline {
             }
         }
 
-        stage('Build') {
+
+        stage('Build Application') {
             steps {
-                export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-                export PATH="${JAVA_HOME}/bin:${PATH}"
-                echo "Using Java version: $(java -version)"
-                echo 'Building the application...'
-                sh 'mvn -f complete/pom.xml clean package -DskipTests'
-                echo 'Application built successfully.'
+                dir('complete') {
+                    sh '''
+                        export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+                        export PATH="${JAVA_HOME}/bin:${PATH}"
+
+                        echo "===== JAVA HOME ====="
+                        echo "$JAVA_HOME"
+
+                        echo "===== JAVA VERSION ====="
+                        java -version
+
+                        echo "===== JAVAC VERSION ====="
+                        javac -version
+
+                        echo "===== MAVEN VERSION ====="
+                        mvn -version
+
+                        echo "===== BUILD APPLICATION ====="
+                        mvn clean package -DskipTests
+                    '''
+                }
             }
-        } 
+        }
     }
 }
