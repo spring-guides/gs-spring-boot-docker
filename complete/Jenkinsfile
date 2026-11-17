@@ -103,6 +103,18 @@ pipeline {
             }
         }
 
+        stage('Create ECR Repository') {
+            steps {
+                dir('complete') {
+                    sh '''
+                        echo "===== CREATE ECR REPOSITORY ====="
+                        aws ecr describe-repositories --repository-names ${ECR_REPOSITORY} || \
+                        aws ecr create-repository --repository-name ${ECR_REPOSITORY}
+                    '''
+                }
+            }
+        }
+
         stage('Publish Docker image to Amazon ECR') {
             steps {
                 dir('complete') {
