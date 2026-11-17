@@ -22,7 +22,7 @@ pipeline {
             }
         }
 
-        stage('Set up Environment') {
+        stage('Build Application') {
             steps {
                 dir('complete') {
                     sh '''
@@ -41,16 +41,7 @@ pipeline {
 
                         echo "===== MAVEN VERSION ====="
                         mvn -version
-                    '''
-                }
-            }
-        }
-
-
-        stage('Build Application') {
-            steps {
-                dir('complete') {
-                    sh '''
+                        
                         echo "===== BUILD APPLICATION ====="
                         mvn clean package -DskipTests
                     '''
