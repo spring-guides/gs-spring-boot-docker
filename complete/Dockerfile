@@ -19,7 +19,7 @@ WORKDIR /app
 
 COPY --from=builder /app/target/*.jar app.jar
 
-EXPOSE 8082
+EXPOSE 8081
 
 # Immutable entrypoint to run the application. This ensures that the application starts when the container is run.
 ENTRYPOINT ["java", "-jar", "app.jar"]
