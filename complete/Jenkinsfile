@@ -19,7 +19,7 @@ pipeline {
         stage('Build') {
             steps {
                 export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-                export PATH=$JAVA_HOME/bin:$PATH
+                export PATH="${JAVA_HOME}/bin:${PATH}"
                 echo "Using Java version: $(java -version)"
                 echo 'Building the application...'
                 sh 'mvn -f complete/pom.xml clean package -DskipTests'
