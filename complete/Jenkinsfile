@@ -1,139 +1,26 @@
 pipeline {
     agent any
 
-    environment {
-        AWS_REGION = 'us-east-1'
-        ECR_REPOSITORY = 'spring-boot-docker'
-        ECR_REGISTRY = '588249212184.dkr.ecr.us-east-1.amazonaws.com'
-    }
-
     stages {
-        stage('Hello World') {
-            steps {
-                echo 'Hello World'
-            }
-        }
-
         stage('Checkout') {
             steps {
-                echo 'Checking out the code...'
+                echo 'Checking out the code from GitHub...'
                 git branch: 'docker', url: 'https://github.com/PAVANKUMAR4/gs-spring-boot-docker.git'
-                echo 'Code checked out successfully.'
+                echo 'Code checkout completed.'
             }
         }
 
-        stage('Build Application') {
+        stage('Build') {
             steps {
+                echo 'Building the application...'
                 dir('complete') {
                     sh '''
-                        echo "===== SET UP ENVIRONMENT ====="
+                        echo 'Setting up Java environment...'
                         export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-                        export PATH="${JAVA_HOME}/bin:${PATH}"
+                        export PATH=$JAVA_HOME/bin:$PATH
 
-                        echo "===== JAVA HOME ====="
-                        echo "$JAVA_HOME"
-
-                        echo "===== JAVA VERSION ====="
-                        java -version
-
-                        echo "===== JAVAC VERSION ====="
-                        javac -version
-
-                        echo "===== MAVEN VERSION ====="
-                        mvn -version
-
-                        echo "===== BUILD APPLICATION ====="
+                        echo 'Running Maven build...'
                         mvn clean package -DskipTests
-                    '''
-                }
-            }
-        }
-
-        stage('Run SonarQube Analysis') {
-            steps {
-                dir('complete') {
-                    sh '''
-                        echo "===== RUN SONARQUBE ANALYSIS ====="
-                        mvn sonar:sonar -Dsonar.projectKey=spring-boot-docker -Dsonar.host.url=http://sonarqube:9000
-                    '''
-                }
-            }
-        }
-
-        stage('Build Docker Image') {
-            steps {
-                dir('complete') {
-                    sh '''
-                        echo "===== BUILD DOCKER IMAGE ====="
-                        docker build -t spring-boot-docker .
-                    '''
-                }
-            }
-        }
-
-        stage('Run Docker Container') {
-            steps {
-                dir('complete') {
-                    sh '''
-                        echo "===== RUN DOCKER CONTAINER ====="
-                        docker rm -f spring-boot-docker-container || true
-                        docker run -d -p 8081:8080 --name spring-boot-docker-container spring-boot-docker
-                    '''
-                }
-            }
-        }
-
-        stage('Test Application') {
-            steps {
-                dir('complete') {
-                    sh '''
-                        echo "===== TEST APPLICATION ====="
-                        sleep 10
-                        curl -f http://34.227.46.214:8081 || (echo "Application is not healthy" && exit 1)
-                    '''
-                }
-            }
-        }
-
-        stage('Cleanup') {
-            steps {
-                dir('complete') {
-                    sh '''
-                        echo "===== CLEANUP ====="
-                        docker rm -f spring-boot-docker-container || true
-                    '''
-                }
-            }
-        }
-
-        stage('Archive Artifacts') {
-            steps {
-                dir('complete') {
-                    archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-                }
-            }
-        }
-
-        stage('Create ECR Repository') {
-            steps {
-                dir('complete') {
-                    sh '''
-                        echo "===== CREATE ECR REPOSITORY ====="
-                        aws ecr describe-repositories --repository-names ${ECR_REPOSITORY} || \
-                        aws ecr create-repository --repository-name ${ECR_REPOSITORY}
-                    '''
-                }
-            }
-        }
-
-        stage('Publish Docker image to Amazon ECR') {
-            steps {
-                dir('complete') {
-                    sh '''
-                        echo "===== PUBLISH DOCKER IMAGE TO AMAZON ECR ====="
-                        aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}
-                        docker tag spring-boot-docker:latest ${ECR_REGISTRY}/${ECR_REPOSITORY}:${BUILD_NUMBER}
-                        docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:${BUILD_NUMBER}
                     '''
                 }
             }
