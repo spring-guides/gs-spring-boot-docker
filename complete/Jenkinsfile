@@ -25,5 +25,17 @@ pipeline {
                 }
             }
         }
+
+        stage('Build Docker Image') {
+            steps {
+                echo 'Building Docker image...'
+                dir('complete') {
+                    sh '''
+                        echo 'Building Docker image for the application...'
+                        docker build -t spring-boot-docker .
+                    '''
+                }
+            }
+        }
     }
 }
