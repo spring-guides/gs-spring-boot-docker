@@ -53,5 +53,23 @@ pipeline {
                 }
             }
         }
+
+        stage('Push the image to amazon ECR') {
+            steps {
+                echo 'Pushing Docker image to Amazon ECR...'
+                dir('complete') {
+                    sh '''
+                        echo 'Logging in to Amazon ECR...'
+                        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 588249212184.dkr.ecr.us-east-1.amazonaws.com
+
+                        echo 'Tagging the Docker image...'
+                        docker tag springboot/java:latest 588249212184.dkr.ecr.us-east-1.amazonaws.com/springboot/java:latest
+
+                        echo 'Pushing the Docker image to ECR...'
+                        docker push 588249212184.dkr.ecr.us-east-1.amazonaws.com/springboot/java:latest
+                    '''
+                }
+            }
+        }
     }
 }
