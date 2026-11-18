@@ -37,5 +37,21 @@ pipeline {
                 }
             }
         }
+
+        stage('Run Docker Container') {
+            steps {
+                echo 'Running Docker container...'
+                dir('complete') {
+                    sh '''
+                        echo 'Stopping any existing container...'
+                        docker stop spring-boot-docker || true
+                        docker rm spring-boot-docker || true
+
+                        echo 'Running new Docker container...'
+                        docker run -d -p 8081:8080 --name spring-boot-docker spring-boot-docker
+                    '''
+                }
+            }
+        }
     }
 }
