@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_IMAGE = 'spring-boot-docker'
+        ECR_REPO = '588249212184.dkr.ecr.us-east-1.amazonaws.com/springboot/java'
+        REGION = 'us-east-1'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -32,7 +38,7 @@ pipeline {
                 dir('complete') {
                     sh '''
                         echo 'Building Docker image for the application...'
-                        docker build -t spring-boot-docker .
+                        docker build -t $DOCKER_IMAGE .
                     '''
                 }
             }
@@ -44,11 +50,11 @@ pipeline {
                 dir('complete') {
                     sh '''
                         echo 'Stopping any existing container...'
-                        docker stop spring-boot-docker || true
-                        docker rm spring-boot-docker || true
+                        docker stop $DOCKER_IMAGE || true
+                        docker rm $DOCKER_IMAGE || true
 
                         echo 'Running new Docker container...'
-                        docker run -d -p 8081:8080 --name spring-boot-docker spring-boot-docker
+                        docker run -d -p 8081:8080 --name $DOCKER_IMAGE $DOCKER_IMAGE
                     '''
                 }
             }
@@ -60,16 +66,16 @@ pipeline {
                 dir('complete') {
                     sh '''
                         echo 'Logging in to Amazon ECR...'
-                        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 588249212184.dkr.ecr.us-east-1.amazonaws.com
+                        aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $ECR_REPO
 
                         echo 'Tagging the Docker image...'
-                        docker tag spring-boot-docker:latest 588249212184.dkr.ecr.us-east-1.amazonaws.com/springboot/java:latest
+                        docker tag $DOCKER_IMAGE:latest $ECR_REPO:latest
 
                         echo 'Pushing the Docker image to ECR...'
-                        docker push 588249212184.dkr.ecr.us-east-1.amazonaws.com/springboot/java:latest
+                        docker push $ECR_REPO:latest
                     '''
                 }
             }
-        }
+        
     }
 }
