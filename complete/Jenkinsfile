@@ -1,0 +1,84 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = 'spring-boot-docker'
+        ECR_REPO = '588249212184.dkr.ecr.us-east-1.amazonaws.com/springboot/java'
+        REGION = 'us-east-1'
+        BUILD_NUMBER = "${env.BUILD_NUMBER}"
+        BUILD_ID = "${env.BUILD_ID}"
+        BUILD_URL = "${env.BUILD_URL}"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out the code from GitHub...'
+                git branch: 'docker', url: 'https://github.com/PAVANKUMAR4/gs-spring-boot-docker.git'
+                echo 'Code checkout completed.'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Building the application...'
+                dir('complete') {
+                    sh '''
+                        echo 'Setting up Java environment...'
+                        export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+                        export PATH=$JAVA_HOME/bin:$PATH
+
+                        echo 'Running Maven build...'
+                        mvn clean package -DskipTests
+                    '''
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                echo 'Building Docker image...'
+                dir('complete') {
+                    sh '''
+                        echo 'Building Docker image for the application...'
+                        docker build -t $DOCKER_IMAGE .
+                    '''
+                }
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                echo 'Running Docker container...'
+                dir('complete') {
+                    sh '''
+                        echo 'Stopping any existing container...'
+                        docker stop $DOCKER_IMAGE || true
+                        docker rm $DOCKER_IMAGE || true
+
+                        echo 'Running new Docker container...'
+                        docker run -d -p 8081:8080 --name $DOCKER_IMAGE $DOCKER_IMAGE
+                    '''
+                }
+            }
+        }
+
+        stage('Push the image to amazon ECR') {
+            steps {
+                echo 'Pushing Docker image to Amazon ECR...'
+                dir('complete') {
+                    sh '''
+                        echo 'Logging in to Amazon ECR...'
+                        aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $ECR_REPO
+
+                        echo 'Tagging the Docker image...'
+                        docker tag $DOCKER_IMAGE:latest $ECR_REPO:${BUILD_NUMBER}
+
+                        echo 'Pushing the Docker image to ECR...'
+                        docker push $ECR_REPO:${BUILD_NUMBER}
+                    '''
+                }
+            }
+        }
+    }
+}
