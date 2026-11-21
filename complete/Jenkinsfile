@@ -5,6 +5,9 @@ pipeline {
         DOCKER_IMAGE = 'spring-boot-docker'
         ECR_REPO = '588249212184.dkr.ecr.us-east-1.amazonaws.com/springboot/java'
         REGION = 'us-east-1'
+        BUILD_NUMBER = "${env.BUILD_NUMBER}"
+        BUILD_ID = "${env.BUILD_ID}"
+        BUILD_URL = "${env.BUILD_URL}"
     }
 
     stages {
@@ -72,7 +75,7 @@ pipeline {
                         docker tag $DOCKER_IMAGE:latest $ECR_REPO:latest
 
                         echo 'Pushing the Docker image to ECR...'
-                        docker push $ECR_REPO:latest
+                        docker push $ECR_REPO:${BUILD_NUMBER}
                     '''
                 }
             }
