@@ -72,7 +72,7 @@ pipeline {
                         aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $ECR_REPO
 
                         echo 'Tagging the Docker image...'
-                        docker tag $DOCKER_IMAGE:latest $ECR_REPO:latest
+                        docker tag $DOCKER_IMAGE:latest $ECR_REPO:${BUILD_NUMBER}
 
                         echo 'Pushing the Docker image to ECR...'
                         docker push $ECR_REPO:${BUILD_NUMBER}
